@@ -234,7 +234,7 @@ func roundTest(regionlist []string, doRun chan string, con int) {
 
 		case <-tick:
 			t := time.Now()
-			tekey = fmt.Sprintf("t-%02d-%02d", t.Hour(), t.Minute())
+			tekey = fmt.Sprintf("t-%02d-%02d-con%d", t.Hour(), t.Minute(), con)
 			bucket = fmt.Sprintf("tb-%02d-%02d-con%d", t.Hour(), t.Minute(), con)
 			fmt.Println("BUCKET!!!!!!!", bucket)
 			for _, r := range regionlist {
