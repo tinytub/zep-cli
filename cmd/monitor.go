@@ -92,7 +92,7 @@ var mokey string
 
 func init() {
 	t := time.Now()
-	moKey := fmt.Sprintf("monit-%02d:%02d", t.Hour(), t.Minute())
+	moKey := fmt.Sprintf("monit-%02d-%02d", t.Hour(), t.Minute())
 
 	s3MoSetOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
 	s3MoSetOBJ.Flags().StringVarP(&mokey, "key", "k", moKey, "which key")

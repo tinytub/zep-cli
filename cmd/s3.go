@@ -17,6 +17,8 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"runtime"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -75,7 +77,12 @@ var s3SetOBJ = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		edp, acckey, sec := checkRegion(region)
 		svc := s3core.NewClient(edp, acckey, sec)
-		s3core.SetOBJ(svc, bucket, key, value, filename)
+		_, err := s3core.SetOBJ(svc, bucket, key, value, filename)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println("set key ok")
 	},
 }
 
@@ -87,7 +94,13 @@ var s3GetOBJ = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		edp, acckey, sec := checkRegion(region)
 		svc := s3core.NewClient(edp, acckey, sec)
-		s3core.GetOBJ(svc, bucket, key, output)
+		res, err := s3core.GetOBJ(svc, bucket, key, output)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println(res)
+
 	},
 }
 
@@ -125,19 +138,156 @@ var s3Test = &cobra.Command{
 		if region != "" {
 			regionlist = []string{region}
 		}
-		for _, r := range regionlist {
-			fmt.Printf("-------\n")
-			fmt.Printf("checking region: %s\n", r)
-			edp, acckey, sec := checkRegion(r)
-			svc := s3core.NewClient(edp, acckey, sec)
-			s3core.ListBucket(svc)
-			s3core.CreateBucket(svc, bucket)
-			s3core.SetOBJ(svc, bucket, key, value, filename)
-			s3core.GetOBJ(svc, bucket, key, output)
-			s3core.ListOBJ(svc, bucket)
-			s3core.DelOBJ(svc, bucket, key)
+
+		runtime.GOMAXPROCS(4)
+
+		doRun := make(chan string, 1)
+		for i := 0; i < con; i++ {
+			go roundTest(regionlist, doRun, i)
+			//fmt.Println("ttt")
 		}
+		<-doRun
+		/*
+			timeout := make(<-chan time.Time)
+			tick := make(<-chan time.Time)
+			one := make(chan int, 1)
+			if utime > 0 {
+				tick = time.Tick(1000 * time.Millisecond)
+				timeout = time.After(time.Duration(utime) * time.Second)
+			} else {
+				one <- utime
+			}
+			fmt.Println(tekey)
+			for {
+				select {
+
+				case <-tick:
+					t := time.Now()
+					tekey = fmt.Sprintf("t-%02d-%02d", t.Hour(), t.Minute())
+
+					for _, r := range regionlist {
+						fmt.Printf("-------\n")
+						fmt.Printf("checking region: %s\n", r)
+						edp, acckey, sec := checkRegion(r)
+						svc := s3core.NewClient(edp, acckey, sec)
+						s3core.ListBucket(svc)
+						s3core.CreateBucket(svc, bucket)
+						s3core.SetOBJ(svc, bucket, tekey, value, filename)
+						s3core.GetOBJ(svc, bucket, tekey, output)
+						s3core.ListOBJ(svc, bucket)
+						s3core.DelOBJ(svc, bucket, tekey)
+					}
+				case <-timeout:
+					fmt.Println("time out 5 second")
+					return
+					os.Exit(1)
+				case <-one:
+					fmt.Println("default!!!!!!!!!!!!!!!!!")
+					for _, r := range regionlist {
+						fmt.Printf("-------\n")
+						fmt.Printf("checking region: %s\n", r)
+						edp, acckey, sec := checkRegion(r)
+						svc := s3core.NewClient(edp, acckey, sec)
+						s3core.ListBucket(svc)
+						s3core.CreateBucket(svc, bucket)
+						_, err := s3core.SetOBJ(svc, bucket, tekey, value, filename)
+						if err != nil {
+							fmt.Println(err)
+						} else {
+							fmt.Println("set ok")
+						}
+						res, errG := s3core.GetOBJ(svc, bucket, tekey, output)
+						if errG != nil {
+							fmt.Println(errG)
+						} else {
+							fmt.Println(res)
+						}
+
+						s3core.ListOBJ(svc, bucket)
+						_, errD := s3core.DelOBJ(svc, bucket, tekey)
+						if errD != nil {
+							fmt.Println(errD)
+						} else {
+							fmt.Println("delete ok")
+						}
+					}
+					return
+				}
+			}
+		*/
 	},
+}
+
+func roundTest(regionlist []string, doRun chan string, con int) {
+	timeout := make(<-chan time.Time)
+	tick := make(<-chan time.Time)
+	one := make(chan int, 1)
+	if utime > 0 {
+		tick = time.Tick(1000 * time.Millisecond)
+		timeout = time.After(time.Duration(utime) * time.Second)
+	} else {
+		one <- utime
+	}
+	fmt.Println(tekey)
+	for {
+		select {
+
+		case <-tick:
+			t := time.Now()
+			tekey = fmt.Sprintf("t-%02d-%02d", t.Hour(), t.Minute())
+			bucket = fmt.Sprintf("tb-%02d-%02d-con%d", t.Hour(), t.Minute(), con)
+			fmt.Println("BUCKET!!!!!!!", bucket)
+			for _, r := range regionlist {
+				fmt.Printf("-------\n")
+				fmt.Printf("checking region: %s\n", r)
+				edp, acckey, sec := checkRegion(r)
+				svc := s3core.NewClient(edp, acckey, sec)
+				s3core.ListBucket(svc)
+				s3core.CreateBucket(svc, bucket)
+				s3core.SetOBJ(svc, bucket, tekey, value, filename)
+				s3core.GetOBJ(svc, bucket, tekey, output)
+				s3core.ListOBJ(svc, bucket)
+				s3core.DelOBJ(svc, bucket, tekey)
+			}
+		case <-timeout:
+			fmt.Println("time out 5 second")
+			doRun <- "done"
+			return
+			os.Exit(1)
+		case <-one:
+			fmt.Println("default!!!!!!!!!!!!!!!!!")
+			for _, r := range regionlist {
+				fmt.Printf("-------\n")
+				fmt.Printf("checking region: %s\n", r)
+				edp, acckey, sec := checkRegion(r)
+				svc := s3core.NewClient(edp, acckey, sec)
+				s3core.ListBucket(svc)
+				s3core.CreateBucket(svc, bucket)
+				_, err := s3core.SetOBJ(svc, bucket, tekey, value, filename)
+				if err != nil {
+					fmt.Println(err)
+				} else {
+					fmt.Println("set ok")
+				}
+				res, errG := s3core.GetOBJ(svc, bucket, tekey, output)
+				if errG != nil {
+					fmt.Println(errG)
+				} else {
+					fmt.Println(res)
+				}
+
+				s3core.ListOBJ(svc, bucket)
+				_, errD := s3core.DelOBJ(svc, bucket, tekey)
+				if errD != nil {
+					fmt.Println(errD)
+				} else {
+					fmt.Println("delete ok")
+				}
+			}
+			doRun <- "done"
+			return
+		}
+	}
 }
 
 var (
@@ -149,9 +299,15 @@ var (
 	value    string
 	filename string
 	output   string
+	tekey    string
+	utime    int
+	con      int
 )
 
 func init() {
+	t := time.Now()
+	teKey := fmt.Sprintf("t-%02d-%02d", t.Hour(), t.Minute())
+
 	RootCmd.AddCommand(s3Cmd)
 
 	s3BenchBucket.Flags().StringVarP(&endpoint, "endpoint", "e", "", "s3 endpoint")
@@ -182,11 +338,13 @@ func init() {
 	s3DelOBJ.Flags().StringVar(&region, "region", "", "s3 region")
 
 	s3Test.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
-	s3Test.Flags().StringVarP(&key, "key", "k", "monit", "which key")
+	s3Test.Flags().StringVarP(&tekey, "key", "k", teKey, "which key")
 	s3Test.Flags().StringVarP(&value, "value", "v", "OK", "which value")
 	s3Test.Flags().StringVarP(&filename, "f", "f", "", "filename which you want upload")
 	s3Test.Flags().StringVarP(&output, "output", "o", "stdout", "filename which you want download file to save")
 	s3Test.Flags().StringVar(&region, "region", "", "s3 region")
+	s3Test.Flags().IntVarP(&utime, "timeout", "t", 0, "test timeout")
+	s3Test.Flags().IntVarP(&con, "concurrency", "c", 1, "test concurrency")
 
 	s3Cmd.AddCommand(s3BenchBucket)
 	s3Cmd.AddCommand(s3ListBucket)
