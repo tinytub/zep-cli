@@ -234,8 +234,8 @@ func roundTest(regionlist []string, doRun chan string, con int) {
 
 		case <-tick:
 			t := time.Now()
-			tekey = fmt.Sprintf("t-%02d-%02d-con%d", t.Hour(), t.Minute(), con)
-			bucket = fmt.Sprintf("tb-%02d-%02d-con%d", t.Hour(), t.Minute(), con)
+			ntekey := fmt.Sprintf("t-%02d-%02d-con%d", t.Hour(), t.Minute(), con)
+			nbucket := fmt.Sprintf("tb-%02d-%02d-con%d", t.Hour(), t.Minute(), con)
 			fmt.Println("BUCKET!!!!!!!", bucket)
 			for _, r := range regionlist {
 				fmt.Printf("-------\n")
@@ -243,11 +243,11 @@ func roundTest(regionlist []string, doRun chan string, con int) {
 				edp, acckey, sec := checkRegion(r)
 				svc := s3core.NewClient(edp, acckey, sec)
 				s3core.ListBucket(svc)
-				s3core.CreateBucket(svc, bucket)
-				s3core.SetOBJ(svc, bucket, tekey, value, filename)
-				s3core.GetOBJ(svc, bucket, tekey, output)
-				s3core.ListOBJ(svc, bucket)
-				s3core.DelOBJ(svc, bucket, tekey)
+				s3core.CreateBucket(svc, nbucket)
+				s3core.SetOBJ(svc, nbucket, ntekey, value, filename)
+				s3core.GetOBJ(svc, nbucket, ntekey, output)
+				s3core.ListOBJ(svc, nbucket)
+				s3core.DelOBJ(svc, nbucket, ntekey)
 			}
 		case <-timeout:
 			fmt.Println("time out 5 second")
