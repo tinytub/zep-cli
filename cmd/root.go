@@ -83,7 +83,7 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("Using config file:", viper.ConfigFileUsed())
+	//fmt.Println("Using config file:", viper.ConfigFileUsed())
 }
 
 func ListRegion() {
