@@ -59,13 +59,11 @@ func ListBucket(svc *s3.S3) {
 	}
 
 	fmt.Println("Buckets: ", len(result.Buckets))
-	/*
-		fmt.Println("Buckets:")
-			for _, b := range result.Buckets {
-				fmt.Printf("* %s created on %s\n",
-					aws.StringValue(b.Name), aws.TimeValue(b.CreationDate))
-			}
-	*/
+	fmt.Println("Buckets:")
+	for _, b := range result.Buckets {
+		fmt.Printf("* %s created on %s\n",
+			aws.StringValue(b.Name), aws.TimeValue(b.CreationDate))
+	}
 }
 
 func SetOBJ(svc *s3.S3, bucket, key, value, filename string) (bool, error) {
