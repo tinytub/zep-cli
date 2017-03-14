@@ -1,0 +1,344 @@
+2017/03/09 15:41:57 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 15:41:57 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 15:41:57 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 15:41:57 monitor.go:12: [0x4] [INFO] [zeppelinecore] type:LISTNODE code:OK msg:"ListNode OK!" list_node:<nodes:<nodes:<node:<ip:"10.206.214.139" port:13221 > status:0 > nodes:<node:<ip:"10.206.214.138" port:13221 > status:0 > nodes:<node:<ip:"10.206.214.137" port:13221 > status:0 > > > 
+2017/03/09 15:41:57 connection.go:240: [0x5] [INFO] [zeppelinecore] this recieve worker done 2
+2017/03/09 15:41:57 connection.go:122: [0x6] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 15:41:57 zepcmd.go:96: [0x7] [INFO] [zeppelinecore] listmeta
+2017/03/09 15:41:57 connection.go:190: [0x8] [INFO] [zeppelinecore] recv 1
+2017/03/09 15:41:57 connection.go:190: [0x9] [INFO] [zeppelinecore] recv 2
+2017/03/09 15:41:57 connection.go:240: [0xa] [INFO] [zeppelinecore] this recieve worker done 2
+2017/03/09 15:41:57 connection.go:122: [0xb] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 15:41:57 connection.go:190: [0xc] [INFO] [zeppelinecore] recv 1
+2017/03/09 15:41:58 connection.go:190: [0xd] [INFO] [zeppelinecore] recv 2
+2017/03/09 15:41:58 connection.go:190: [0xe] [INFO] [zeppelinecore] recv 3
+2017/03/09 15:41:58 connection.go:190: [0xf] [INFO] [zeppelinecore] recv 4
+2017/03/09 15:41:58 connection.go:190: [0x10] [INFO] [zeppelinecore] recv 5
+2017/03/09 15:41:58 connection.go:190: [0x11] [INFO] [zeppelinecore] recv 6
+2017/03/09 15:41:58 connection.go:190: [0x12] [INFO] [zeppelinecore] recv 7
+2017/03/09 15:41:58 connection.go:190: [0x13] [INFO] [zeppelinecore] recv 8
+2017/03/09 15:41:58 connection.go:190: [0x14] [INFO] [zeppelinecore] recv 9
+2017/03/09 15:41:58 connection.go:190: [0x15] [INFO] [zeppelinecore] recv 10
+2017/03/09 15:41:58 connection.go:190: [0x16] [INFO] [zeppelinecore] recv 11
+2017/03/09 15:41:58 connection.go:190: [0x17] [INFO] [zeppelinecore] recv 12
+2017/03/09 15:41:58 connection.go:190: [0x18] [INFO] [zeppelinecore] recv 13
+2017/03/09 15:41:58 connection.go:190: [0x19] [INFO] [zeppelinecore] recv 14
+2017/03/09 15:41:58 connection.go:190: [0x1a] [INFO] [zeppelinecore] recv 15
+2017/03/09 15:41:58 connection.go:190: [0x1b] [INFO] [zeppelinecore] recv 16
+2017/03/09 15:41:58 connection.go:190: [0x1c] [INFO] [zeppelinecore] recv 17
+2017/03/09 15:41:58 connection.go:190: [0x1d] [INFO] [zeppelinecore] recv 18
+2017/03/09 15:41:58 connection.go:190: [0x1e] [INFO] [zeppelinecore] recv 19
+2017/03/09 15:41:58 connection.go:190: [0x1f] [INFO] [zeppelinecore] recv 20
+2017/03/09 15:41:58 connection.go:190: [0x20] [INFO] [zeppelinecore] recv 21
+2017/03/09 15:41:58 connection.go:190: [0x21] [INFO] [zeppelinecore] recv 22
+2017/03/09 15:41:58 connection.go:190: [0x22] [INFO] [zeppelinecore] recv 23
+2017/03/09 15:41:58 connection.go:190: [0x23] [INFO] [zeppelinecore] recv 24
+2017/03/09 15:41:58 connection.go:190: [0x24] [INFO] [zeppelinecore] recv 25
+2017/03/09 15:41:58 connection.go:190: [0x25] [INFO] [zeppelinecore] recv 26
+2017/03/09 15:41:58 connection.go:190: [0x26] [INFO] [zeppelinecore] recv 27
+2017/03/09 15:41:58 connection.go:190: [0x27] [INFO] [zeppelinecore] recv 28
+2017/03/09 15:41:58 connection.go:190: [0x28] [INFO] [zeppelinecore] recv 29
+2017/03/09 15:41:58 connection.go:190: [0x29] [INFO] [zeppelinecore] recv 30
+2017/03/09 15:41:58 connection.go:190: [0x2a] [INFO] [zeppelinecore] recv 31
+2017/03/09 15:41:58 connection.go:190: [0x2b] [INFO] [zeppelinecore] recv 32
+2017/03/09 15:41:58 connection.go:190: [0x2c] [INFO] [zeppelinecore] recv 33
+2017/03/09 15:41:58 connection.go:190: [0x2d] [INFO] [zeppelinecore] recv 34
+2017/03/09 15:41:58 connection.go:190: [0x2e] [INFO] [zeppelinecore] recv 35
+2017/03/09 15:41:58 connection.go:190: [0x2f] [INFO] [zeppelinecore] recv 36
+2017/03/09 15:41:58 connection.go:190: [0x30] [INFO] [zeppelinecore] recv 37
+2017/03/09 15:41:58 connection.go:190: [0x31] [INFO] [zeppelinecore] recv 38
+2017/03/09 15:41:59 connection.go:190: [0x32] [INFO] [zeppelinecore] recv 39
+2017/03/09 15:41:59 connection.go:190: [0x33] [INFO] [zeppelinecore] recv 40
+2017/03/09 15:41:59 connection.go:190: [0x34] [INFO] [zeppelinecore] recv 41
+2017/03/09 15:41:59 connection.go:190: [0x35] [INFO] [zeppelinecore] recv 42
+2017/03/09 15:41:59 connection.go:190: [0x36] [INFO] [zeppelinecore] recv 43
+2017/03/09 15:41:59 connection.go:190: [0x37] [INFO] [zeppelinecore] recv 44
+2017/03/09 15:41:59 connection.go:190: [0x38] [INFO] [zeppelinecore] recv 45
+2017/03/09 15:41:59 connection.go:190: [0x39] [INFO] [zeppelinecore] recv 46
+2017/03/09 15:41:59 connection.go:190: [0x3a] [INFO] [zeppelinecore] recv 47
+2017/03/09 15:41:59 connection.go:190: [0x3b] [INFO] [zeppelinecore] recv 48
+2017/03/09 15:41:59 connection.go:190: [0x3c] [INFO] [zeppelinecore] recv 49
+2017/03/09 15:41:59 connection.go:190: [0x3d] [INFO] [zeppelinecore] recv 50
+2017/03/09 15:41:59 connection.go:190: [0x3e] [INFO] [zeppelinecore] recv 51
+2017/03/09 15:41:59 connection.go:190: [0x3f] [INFO] [zeppelinecore] recv 52
+2017/03/09 15:41:59 connection.go:190: [0x40] [INFO] [zeppelinecore] recv 53
+2017/03/09 15:41:59 connection.go:190: [0x41] [INFO] [zeppelinecore] recv 54
+2017/03/09 15:41:59 connection.go:190: [0x42] [INFO] [zeppelinecore] recv 55
+2017/03/09 15:41:59 connection.go:190: [0x43] [INFO] [zeppelinecore] recv 56
+2017/03/09 15:41:59 connection.go:190: [0x44] [INFO] [zeppelinecore] recv 57
+2017/03/09 15:41:59 connection.go:190: [0x45] [INFO] [zeppelinecore] recv 58
+2017/03/09 15:41:59 connection.go:190: [0x46] [INFO] [zeppelinecore] recv 59
+2017/03/09 15:41:59 connection.go:190: [0x47] [INFO] [zeppelinecore] recv 60
+2017/03/09 15:41:59 connection.go:190: [0x48] [INFO] [zeppelinecore] recv 61
+2017/03/09 15:41:59 connection.go:190: [0x49] [INFO] [zeppelinecore] recv 62
+2017/03/09 15:41:59 connection.go:190: [0x4a] [INFO] [zeppelinecore] recv 63
+2017/03/09 15:41:59 connection.go:190: [0x4b] [INFO] [zeppelinecore] recv 64
+2017/03/09 15:41:59 connection.go:190: [0x4c] [INFO] [zeppelinecore] recv 65
+2017/03/09 15:41:59 connection.go:190: [0x4d] [INFO] [zeppelinecore] recv 66
+2017/03/09 15:41:59 connection.go:190: [0x4e] [INFO] [zeppelinecore] recv 67
+2017/03/09 15:41:59 connection.go:190: [0x4f] [INFO] [zeppelinecore] recv 68
+2017/03/09 15:41:59 connection.go:190: [0x50] [INFO] [zeppelinecore] recv 69
+2017/03/09 15:41:59 connection.go:190: [0x51] [INFO] [zeppelinecore] recv 70
+2017/03/09 15:41:59 connection.go:190: [0x52] [INFO] [zeppelinecore] recv 71
+2017/03/09 15:41:59 connection.go:190: [0x53] [INFO] [zeppelinecore] recv 72
+2017/03/09 15:41:59 connection.go:190: [0x54] [INFO] [zeppelinecore] recv 73
+2017/03/09 15:41:59 connection.go:190: [0x55] [INFO] [zeppelinecore] recv 74
+2017/03/09 15:41:59 connection.go:190: [0x56] [INFO] [zeppelinecore] recv 75
+2017/03/09 15:42:00 connection.go:190: [0x57] [INFO] [zeppelinecore] recv 76
+2017/03/09 15:42:00 connection.go:190: [0x58] [INFO] [zeppelinecore] recv 77
+2017/03/09 15:42:00 connection.go:190: [0x59] [INFO] [zeppelinecore] recv 78
+2017/03/09 15:42:00 connection.go:190: [0x5a] [INFO] [zeppelinecore] recv 79
+2017/03/09 15:42:00 connection.go:190: [0x5b] [INFO] [zeppelinecore] recv 80
+2017/03/09 15:42:00 connection.go:190: [0x5c] [INFO] [zeppelinecore] recv 81
+2017/03/09 15:42:00 connection.go:190: [0x5d] [INFO] [zeppelinecore] recv 82
+2017/03/09 15:42:00 connection.go:190: [0x5e] [INFO] [zeppelinecore] recv 83
+2017/03/09 15:42:00 connection.go:190: [0x5f] [INFO] [zeppelinecore] recv 84
+2017/03/09 15:42:00 connection.go:190: [0x60] [INFO] [zeppelinecore] recv 85
+2017/03/09 15:42:00 connection.go:190: [0x61] [INFO] [zeppelinecore] recv 86
+2017/03/09 15:42:00 connection.go:190: [0x62] [INFO] [zeppelinecore] recv 87
+2017/03/09 15:42:00 connection.go:190: [0x63] [INFO] [zeppelinecore] recv 88
+2017/03/09 15:42:00 connection.go:190: [0x64] [INFO] [zeppelinecore] recv 89
+2017/03/09 15:42:00 connection.go:190: [0x65] [INFO] [zeppelinecore] recv 90
+2017/03/09 15:42:00 connection.go:190: [0x66] [INFO] [zeppelinecore] recv 91
+2017/03/09 15:42:00 connection.go:190: [0x67] [INFO] [zeppelinecore] recv 92
+2017/03/09 15:42:00 connection.go:190: [0x68] [INFO] [zeppelinecore] recv 93
+2017/03/09 15:42:00 connection.go:190: [0x69] [INFO] [zeppelinecore] recv 94
+2017/03/09 15:42:00 connection.go:190: [0x6a] [INFO] [zeppelinecore] recv 95
+2017/03/09 15:42:00 connection.go:190: [0x6b] [INFO] [zeppelinecore] recv 96
+2017/03/09 15:42:00 connection.go:190: [0x6c] [INFO] [zeppelinecore] recv 97
+2017/03/09 15:42:00 connection.go:190: [0x6d] [INFO] [zeppelinecore] recv 98
+2017/03/09 15:42:00 connection.go:190: [0x6e] [INFO] [zeppelinecore] recv 99
+2017/03/09 15:42:00 connection.go:190: [0x6f] [INFO] [zeppelinecore] recv 100
+2017/03/09 15:42:00 connection.go:190: [0x70] [INFO] [zeppelinecore] recv 101
+2017/03/09 15:42:00 connection.go:190: [0x71] [INFO] [zeppelinecore] recv 102
+2017/03/09 15:42:00 connection.go:190: [0x72] [INFO] [zeppelinecore] recv 103
+2017/03/09 15:42:00 connection.go:190: [0x73] [INFO] [zeppelinecore] recv 104
+2017/03/09 15:42:00 connection.go:190: [0x74] [INFO] [zeppelinecore] recv 105
+2017/03/09 15:42:00 connection.go:190: [0x75] [INFO] [zeppelinecore] recv 106
+2017/03/09 15:42:00 connection.go:190: [0x76] [INFO] [zeppelinecore] recv 107
+2017/03/09 15:42:00 connection.go:190: [0x77] [INFO] [zeppelinecore] recv 108
+2017/03/09 15:42:00 connection.go:190: [0x78] [INFO] [zeppelinecore] recv 109
+2017/03/09 15:42:00 connection.go:190: [0x79] [INFO] [zeppelinecore] recv 110
+2017/03/09 15:42:00 connection.go:190: [0x7a] [INFO] [zeppelinecore] recv 111
+2017/03/09 15:42:00 connection.go:190: [0x7b] [INFO] [zeppelinecore] recv 112
+2017/03/09 15:42:01 connection.go:190: [0x7c] [INFO] [zeppelinecore] recv 113
+2017/03/09 15:42:01 connection.go:190: [0x7d] [INFO] [zeppelinecore] recv 114
+2017/03/09 15:42:01 connection.go:190: [0x7e] [INFO] [zeppelinecore] recv 115
+2017/03/09 15:42:01 connection.go:190: [0x7f] [INFO] [zeppelinecore] recv 116
+2017/03/09 15:42:01 connection.go:190: [0x80] [INFO] [zeppelinecore] recv 117
+2017/03/09 15:42:01 connection.go:190: [0x81] [INFO] [zeppelinecore] recv 118
+2017/03/09 15:42:01 connection.go:240: [0x82] [INFO] [zeppelinecore] this recieve worker done 118
+2017/03/09 16:53:28 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 16:53:28 zepcmd.go:96: [0x2] [INFO] [zeppelinecore] listmeta
+2017/03/09 16:53:28 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 1
+2017/03/09 16:53:28 connection.go:190: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/09 17:01:35 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 17:01:35 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 17:01:35 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 17:03:46 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 17:03:46 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 17:03:46 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 17:04:09 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 17:04:09 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 17:04:09 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 17:04:38 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 17:04:38 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 17:04:38 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 17:27:59 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 17:27:59 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 17:27:59 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 17:38:06 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 17:38:06 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 17:38:06 zepcmd.go:122: [0x3] [INFO] [zeppelinecore] listmeta
+2017/03/09 17:38:06 connection.go:190: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/09 17:39:20 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 17:39:20 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 17:39:21 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 17:40:18 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 17:40:18 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 17:40:18 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 18:21:28 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 18:21:28 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 18:21:29 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 18:21:33 zepcmd.go:246: [0x4] [INFO] [zeppelinecore] time out 500ms
+2017/03/09 18:22:42 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 18:22:42 connection.go:129: [0x2] [INFO] [zeppelinecore] tcp conn err: dial tcp 10.206.214.138:9221: getsockopt: connection refused
+2017/03/09 18:22:42 connection.go:109: [0x3] [INFO] [zeppelinecore] bad conn, continue: dial tcp 10.206.214.138:9221: getsockopt: connection refused
+2017/03/09 18:23:26 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 18:23:26 connection.go:129: [0x2] [INFO] [zeppelinecore] tcp conn err: dial tcp 10.206.214.138:9221: getsockopt: connection refused
+2017/03/09 18:23:26 connection.go:109: [0x3] [INFO] [zeppelinecore] bad conn, continue: dial tcp 10.206.214.138:9221: getsockopt: connection refused
+2017/03/09 18:23:26 zepcmd.go:96: [0x4] [INFO] [zeppelinecore] listmeta
+2017/03/09 18:44:31 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 18:44:31 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 18:44:31 connection.go:240: [0x3] [INFO] [zeppelinecore] this recieve worker done 1
+2017/03/09 18:45:34 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 18:45:34 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 18:45:35 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 18:45:39 zepcmd.go:246: [0x4] [INFO] [zeppelinecore] time out 500ms
+2017/03/09 18:45:45 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 18:45:45 connection.go:129: [0x2] [INFO] [zeppelinecore] tcp conn err: dial tcp 10.206.214.138:9221: getsockopt: connection refused
+2017/03/09 18:45:45 connection.go:109: [0x3] [INFO] [zeppelinecore] bad conn, continue: dial tcp 10.206.214.138:9221: getsockopt: connection refused
+2017/03/09 18:46:44 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 18:46:44 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 18:46:44 zepcmd.go:96: [0x3] [INFO] [zeppelinecore] listmeta
+2017/03/09 18:46:45 connection.go:190: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/09 18:47:03 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 18:47:03 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 18:47:05 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 18:47:08 zepcmd.go:246: [0x4] [INFO] [zeppelinecore] time out 500ms
+2017/03/09 18:49:43 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 18:49:43 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 18:51:41 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 18:51:41 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 18:51:41 connection.go:240: [0x3] [INFO] [zeppelinecore] this recieve worker done 1
+2017/03/09 18:52:07 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/09 18:52:07 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/09 18:52:08 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/09 18:52:12 zepcmd.go:246: [0x4] [INFO] [zeppelinecore] time out 500ms
+2017/03/13 14:52:59 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 14:52:59 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 14:52:59 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 14:53:44 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 14:53:44 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 14:53:44 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 14:57:12 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 14:57:12 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 14:57:12 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 14:57:38 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 14:57:38 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 14:57:39 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 14:57:46 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 14:57:46 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 14:57:46 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 14:57:57 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 14:57:57 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 14:57:57 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 14:59:03 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 14:59:03 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 14:59:03 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 14:59:42 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 14:59:42 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 14:59:43 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:02:06 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:02:06 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:02:06 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:03:07 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:03:07 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:03:07 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:03:24 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:03:24 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:03:24 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:03:43 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:03:43 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:03:43 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:04:07 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:04:08 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:04:08 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:06:45 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:06:45 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:06:46 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:14:14 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:14:14 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:14:19 zepcmd.go:278: [0x3] [INFO] [zeppelinecore] time out 500ms
+2017/03/13 15:17:29 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:17:29 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:17:34 zepcmd.go:278: [0x3] [INFO] [zeppelinecore] time out 500ms
+2017/03/13 15:28:38 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:28:38 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:28:42 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:29:31 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:29:31 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:29:32 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:29:41 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:29:41 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:29:44 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:29:53 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:29:53 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:29:55 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:30:27 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:30:27 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:30:31 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 15:32:11 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 15:32:11 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 15:32:21 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:09:53 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:09:53 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:09:53 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:10:26 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:10:26 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:10:26 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:10:35 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:10:35 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:10:35 zepcmd.go:291: [0x3] [INFO] [zeppelinecore] time out 5 second
+2017/03/13 17:10:48 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:10:48 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:10:48 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:16:45 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:16:45 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:16:45 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:17:23 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:17:23 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:17:23 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:20:07 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:20:07 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:20:07 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:20:12 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:20:13 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:20:13 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:20:41 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:20:41 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:20:41 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:20:49 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:20:49 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:20:49 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:21:19 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:21:19 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:21:19 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:23:23 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:23:23 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:23:23 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:23:30 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:23:30 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:23:30 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:23:32 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:23:32 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:23:32 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:26:56 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:26:56 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:26:56 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:27:15 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:27:15 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:27:15 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:30:50 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:30:50 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:30:50 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:33:13 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:33:13 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:33:13 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:35:19 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:35:19 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:35:19 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:35:57 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:35:57 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:35:57 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:36:56 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:36:56 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:36:56 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:38:22 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:38:22 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:38:22 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:38:31 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:38:31 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:38:31 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:39:02 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:39:02 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:39:02 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:39:25 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:39:25 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:39:25 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:40:08 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:40:08 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:40:08 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/13 17:40:12 connection.go:122: [0x1] [INFO] [zeppelinecore] 10.206.214.138:9221
+2017/03/13 17:40:12 connection.go:190: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/13 17:40:12 connection.go:190: [0x3] [INFO] [zeppelinecore] recv 2

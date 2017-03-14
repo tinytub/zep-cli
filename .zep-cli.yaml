@@ -1,0 +1,8 @@
+s3:
+  local:
+    key: vcd2pbwd4JODnhqEUcUf
+    secret: pVceKXJUthHCcndGU75dVpRZ97602CpbCcLGPl9b
+    endpoint: http://localhost:8099
+    #  test-bjyt:
+    #    key: 200
+    #    secret: 80
