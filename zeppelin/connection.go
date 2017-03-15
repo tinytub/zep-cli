@@ -101,7 +101,7 @@ func NewMultiMetaConn(addrs []string) *MetaConnMap {
 */
 
 func NewConn() *Connection {
-	addrs := []string{"k1407v.add.shyc2.qihoo.net:9221"}
+	addrs := []string{"xxxx.xxxx.xxx.xxx:9221"}
 	c := &Connection{}
 	for _, addr := range addrs {
 		conn, err := c.newConn(addr)

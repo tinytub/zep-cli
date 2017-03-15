@@ -147,74 +147,7 @@ var s3Test = &cobra.Command{
 			//fmt.Println("ttt")
 		}
 		<-doRun
-		/*
-			timeout := make(<-chan time.Time)
-			tick := make(<-chan time.Time)
-			one := make(chan int, 1)
-			if utime > 0 {
-				tick = time.Tick(1000 * time.Millisecond)
-				timeout = time.After(time.Duration(utime) * time.Second)
-			} else {
-				one <- utime
-			}
-			fmt.Println(tekey)
-			for {
-				select {
 
-				case <-tick:
-					t := time.Now()
-					tekey = fmt.Sprintf("t-%02d-%02d", t.Hour(), t.Minute())
-
-					for _, r := range regionlist {
-						fmt.Printf("-------\n")
-						fmt.Printf("checking region: %s\n", r)
-						edp, acckey, sec := checkRegion(r)
-						svc := s3core.NewClient(edp, acckey, sec)
-						s3core.ListBucket(svc)
-						s3core.CreateBucket(svc, bucket)
-						s3core.SetOBJ(svc, bucket, tekey, value, filename)
-						s3core.GetOBJ(svc, bucket, tekey, output)
-						s3core.ListOBJ(svc, bucket)
-						s3core.DelOBJ(svc, bucket, tekey)
-					}
-				case <-timeout:
-					fmt.Println("time out 5 second")
-					return
-					os.Exit(1)
-				case <-one:
-					fmt.Println("default!!!!!!!!!!!!!!!!!")
-					for _, r := range regionlist {
-						fmt.Printf("-------\n")
-						fmt.Printf("checking region: %s\n", r)
-						edp, acckey, sec := checkRegion(r)
-						svc := s3core.NewClient(edp, acckey, sec)
-						s3core.ListBucket(svc)
-						s3core.CreateBucket(svc, bucket)
-						_, err := s3core.SetOBJ(svc, bucket, tekey, value, filename)
-						if err != nil {
-							fmt.Println(err)
-						} else {
-							fmt.Println("set ok")
-						}
-						res, errG := s3core.GetOBJ(svc, bucket, tekey, output)
-						if errG != nil {
-							fmt.Println(errG)
-						} else {
-							fmt.Println(res)
-						}
-
-						s3core.ListOBJ(svc, bucket)
-						_, errD := s3core.DelOBJ(svc, bucket, tekey)
-						if errD != nil {
-							fmt.Println(errD)
-						} else {
-							fmt.Println("delete ok")
-						}
-					}
-					return
-				}
-			}
-		*/
 	},
 }
 
