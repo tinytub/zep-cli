@@ -69,6 +69,18 @@ var s3CreateBucket = &cobra.Command{
 	},
 }
 
+var s3DeleteBucket = &cobra.Command{
+	Use:   "delbk",
+	Short: "zep s3 delete bucket",
+	Long: `A tool for zep s3 gateway
+		for normal test create bucket`,
+	Run: func(cmd *cobra.Command, args []string) {
+		edp, acckey, sec := checkRegion(region)
+		svc := s3core.NewClient(edp, acckey, sec)
+		s3core.DeleteBucket(svc, bucket)
+	},
+}
+
 var s3SetOBJ = &cobra.Command{
 	Use:   "set",
 	Short: "zep s3 set key",
@@ -181,6 +193,7 @@ func roundTest(regionlist []string, doRun chan string, con int) {
 				s3core.GetOBJ(svc, nbucket, ntekey, output)
 				s3core.ListOBJ(svc, nbucket)
 				s3core.DelOBJ(svc, nbucket, ntekey)
+				//s3core.DeleteBucket(svc, nbucket)
 			}
 		case <-timeout:
 			fmt.Println("time out 5 second")
@@ -194,14 +207,18 @@ func roundTest(regionlist []string, doRun chan string, con int) {
 				fmt.Printf("checking region: %s\n", r)
 				edp, acckey, sec := checkRegion(r)
 				svc := s3core.NewClient(edp, acckey, sec)
+
 				s3core.ListBucket(svc)
+
 				s3core.CreateBucket(svc, bucket)
+
 				_, err := s3core.SetOBJ(svc, bucket, tekey, value, filename)
 				if err != nil {
 					fmt.Println(err)
 				} else {
 					fmt.Println("set ok")
 				}
+
 				res, errG := s3core.GetOBJ(svc, bucket, tekey, output)
 				if errG != nil {
 					fmt.Println(errG)
@@ -216,6 +233,8 @@ func roundTest(regionlist []string, doRun chan string, con int) {
 				} else {
 					fmt.Println("delete ok")
 				}
+
+				//s3core.DeleteBucket(svc, bucket)
 			}
 			doRun <- "done"
 			return
@@ -252,6 +271,9 @@ func init() {
 	s3CreateBucket.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
 	s3CreateBucket.Flags().StringVar(&region, "region", "", "s3 region")
 
+	s3DeleteBucket.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
+	s3DeleteBucket.Flags().StringVar(&region, "region", "", "s3 region")
+
 	s3SetOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
 	s3SetOBJ.Flags().StringVarP(&key, "key", "k", "monit", "which key")
 	s3SetOBJ.Flags().StringVarP(&value, "value", "v", "OK", "which value")
@@ -286,7 +308,10 @@ func init() {
 	s3Cmd.AddCommand(s3ListOBJ)
 	s3Cmd.AddCommand(s3DelOBJ)
 	s3Cmd.AddCommand(s3CreateBucket)
+	s3Cmd.AddCommand(s3DeleteBucket)
 	s3Cmd.AddCommand(s3Test)
+	//s3Cmd.Flags().StringVar(&region, "region", "", "s3 region")
+
 	viper.Get("s3")
 
 	// Here you will define your flags and configuration settings.

@@ -52,6 +52,20 @@ func CreateBucket(svc *s3.S3, key string) {
 	return
 }
 
+func DeleteBucket(svc *s3.S3, bucket string) {
+	params := &s3.DeleteBucketInput{
+		Bucket: aws.String(bucket),
+	}
+
+	resp, err := svc.DeleteBucket(params)
+	if err != nil {
+		fmt.Println("delete err:", err.Error())
+	}
+	fmt.Printf("delete done! resp: %s", resp)
+	return
+
+}
+
 func ListBucket(svc *s3.S3) {
 	result, err := svc.ListBuckets(nil)
 	if err != nil {

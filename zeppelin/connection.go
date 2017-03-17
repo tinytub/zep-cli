@@ -101,10 +101,10 @@ func NewMultiMetaConn(addrs []string) *MetaConnMap {
 */
 
 func NewConn() *Connection {
-	addrs := []string{"xxxx.xxxx.xxx.xxx:9221"}
+	addrs := []string{"10.203.11.76:9221"}
 	c := &Connection{}
 	for _, addr := range addrs {
-		conn, err := c.newConn(addr)
+		conn, err := c.MetaConn(addr)
 		if err != nil {
 			logger.Info("bad conn, continue:", err)
 			continue
@@ -115,7 +115,7 @@ func NewConn() *Connection {
 	return c
 }
 
-func (c *Connection) newConn(addr string) (*Connection, error) {
+func (c *Connection) MetaConn(addr string) (*Connection, error) {
 	fConn := &Connection{}
 
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", addr)
@@ -138,6 +138,7 @@ func (c *Connection) newConn(addr string) (*Connection, error) {
 	return fConn, nil
 }
 
+// 这里不对... 得重新整
 func (c *Connection) NodeConns() map[string]*Connection {
 	nodes, _ := c.ListNode()
 	//nodeConnMap := conn.NewMultiNodeConn(nodes.ListNode.Nodes)
@@ -244,6 +245,9 @@ func (c *Connection) Recv() {
 			//						logger.Info("waiting request or done", i)
 		case <-time.After(5000 * time.Millisecond):
 			logger.Info("waiting for request or done io  5 second")
+
+			// 这里还应该在 case 一个 停止的 sigal, 或者看要不要设置超时.
+
 		}
 		i = i + 1
 	}
