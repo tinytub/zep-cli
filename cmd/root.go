@@ -86,8 +86,20 @@ func initConfig() {
 	//fmt.Println("Using config file:", viper.ConfigFileUsed())
 }
 
-func ListRegion() {
+func ListS3Region() {
 	s3conf := viper.Get("s3")
+	//fmt.Println(s3conf.(*map[string]map[string]string))
+	if s3conf != nil {
+		fmt.Println("can not find specified region")
+		fmt.Println("find these region in config:")
+		for key := range s3conf.(map[string]interface{}) {
+			fmt.Println(key)
+		}
+	}
+}
+
+func ListZepRegion() {
+	s3conf := viper.Get("zep")
 	//fmt.Println(s3conf.(*map[string]map[string]string))
 	if s3conf != nil {
 		fmt.Println("can not find specified region")

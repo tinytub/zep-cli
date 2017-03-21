@@ -1,9 +1,8 @@
 package zeppelin
 
-import "fmt"
-
 //	"github.com/tinytub/zeppeline-monitor/zeppelin"
 
+/*
 func NodeStats() {
 	conn := NewConn()
 	//conn.mu.Lock()
@@ -33,8 +32,9 @@ func MetaStats() {
 		for _, node := range data.ListMeta.Nodes {
 			continue
 		}
-	*/
-	//fmt.Println(data)
+*/
+//fmt.Println(data)
+/*
 	conn.RecvDone <- true
 	return
 }
@@ -56,3 +56,4 @@ func TableStats() {
 	conn.RecvDone <- true
 	return
 }
+*/

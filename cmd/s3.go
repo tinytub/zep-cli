@@ -339,7 +339,7 @@ func checkRegion(region string) (string, string, string) {
 	path := fmt.Sprintf("s3.%s", region)
 	conf := viper.Get(path)
 	if conf == nil {
-		ListRegion()
+		ListS3Region()
 		os.Exit(0)
 		//return nil, nil, nil
 	}

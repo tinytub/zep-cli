@@ -100,11 +100,15 @@ func NewMultiMetaConn(addrs []string) *MetaConnMap {
 }
 */
 
-func NewConn() *Connection {
-	addrs := []string{"10.203.11.76:9221"}
+//./src/zp_table.cc:  int par_num = std::hash<std::string>()(key) % partitions_.size();
+
+//func NewConn(ads []string) *Connection {
+func NewConn(addrs []string) *Connection {
+
+	//addrs := []string{"10.203.11.76:9221"}
 	c := &Connection{}
 	for _, addr := range addrs {
-		conn, err := c.MetaConn(addr)
+		conn, err := c.newConn(addr)
 		if err != nil {
 			logger.Info("bad conn, continue:", err)
 			continue
@@ -115,7 +119,7 @@ func NewConn() *Connection {
 	return c
 }
 
-func (c *Connection) MetaConn(addr string) (*Connection, error) {
+func (c *Connection) newConn(addr string) (*Connection, error) {
 	fConn := &Connection{}
 
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", addr)

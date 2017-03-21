@@ -25,8 +25,8 @@ import (
 // more of an implementation detail in reality). Also it makes mocking
 // easier for unit-testing the collectors.
 type Conn interface {
-	MetaConn(string) (*zeppelin.Connection, error)
-	NodeConns() map[string]*zeppelin.Connection
+	//	MetaConn(string) (*zeppelin.Connection, error)
+	//	NodeConns() map[string]*zeppelin.Connection
 	ListMeta() (*ZPMeta.MetaCmdResponse, error)
 	ListNode() (*ZPMeta.MetaCmdResponse, error)
 	//	Shutdown()

@@ -1,5 +1,12 @@
 package zeppelin
 
+/*
+#cgo CFLAGS: -I ./include
+#cgo LDFLAGS: -L ./lib -lchash -lstdc++
+
+#include "chash.h"
+*/
+import "C"
 import (
 	"bytes"
 	"encoding/gob"
@@ -12,8 +19,8 @@ var status = map[int32]string{
 	1: "down",
 }
 
-func ListNode() {
-	conn := NewConn()
+func ListNode(addrs []string) {
+	conn := NewConn(addrs)
 	//conn.mu.Lock()
 	data, _ := conn.ListNode()
 	if data.Code.String() != "OK" {
@@ -28,8 +35,8 @@ func ListNode() {
 	return
 }
 
-func ListMeta() {
-	conn := NewConn()
+func ListMeta(addrs []string) {
+	conn := NewConn(addrs)
 	//conn.mu.Lock()
 	data, _ := conn.ListMeta()
 	if data.Code.String() != "OK" {
@@ -47,8 +54,8 @@ func ListMeta() {
 	return
 }
 
-func ListTable() {
-	conn := NewConn()
+func ListTable(addrs []string) {
+	conn := NewConn(addrs)
 	//conn.mu.Lock()
 	data, _ := conn.ListTable()
 	if data.Code.String() != "OK" {
@@ -63,8 +70,8 @@ func ListTable() {
 	return
 }
 
-func CreateTable(name string, num int32) {
-	conn := NewConn()
+func CreateTable(name string, num int32, addrs []string) {
+	conn := NewConn(addrs)
 	//conn.mu.Lock()
 	data, _ := conn.CreateTable(name, num)
 	if data.Code.String() != "OK" {
@@ -76,20 +83,36 @@ func CreateTable(name string, num int32) {
 	return
 }
 
-func Set(tablename string, key string, value string) {
-	conn := NewConn()
-	//conn.mu.Lock()
-	val, _ := getBytes(value)
-	//fmt.Println([]byte(value))
-	fmt.Println(val)
-	pNum := getPartition(conn, tablename)
-	fmt.Println(pNum)
-	//data, _ := conn.Set(tablename, key, val)
-	//data, _ := conn.Set(tablename, key, []byte(value))
-	//fmt.Println(data)
-	conn.RecvDone <- true
-	return
+func Set(tablename string, key string, value string, addrs []string) {
+	conn := NewConn(addrs)
+	tableinfo, _ := conn.PullTable(tablename)
+
+	partcount := len(tableinfo.Pull.Info[0].Partitions)
+	//./src/zp_table.cc:  int par_num = std::hash<std::string>()(key) % partitions_.size();
+	//gcc -c chash.cc -std=c++11
+	//ar rv libchash.a chash.o
+	//mv libchash.a ../lib
+	//测试
+	//g++ -o chash chash.cc -std=c++11
+	parNum := uint(C.chash(C.CString(key))) % uint(partcount)
+	fmt.Println(parNum)
+
+	/*
+		//conn.mu.Lock()
+		val, _ := getBytes(value)
+		//fmt.Println([]byte(value))
+		fmt.Println(val)
+		pNum := getPartition(conn, tablename)
+		fmt.Println(pNum)
+		//data, _ := conn.Set(tablename, key, val)
+		//data, _ := conn.Set(tablename, key, []byte(value))
+		//fmt.Println(data)
+		conn.RecvDone <- true
+		return
+	*/
 }
+
+func locationNode() {}
 
 func getPartition(conn *Connection, tablename string) int {
 

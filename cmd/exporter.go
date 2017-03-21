@@ -24,7 +24,9 @@ var exporterCmd = &cobra.Command{
 	Use:   "exporter",
 	Short: "zep exporter for prometheus",
 	Run: func(cmd *cobra.Command, args []string) {
-		exporter.DoExporter(addr, matricPath, hostType)
+		meta := checkZepRegionNGetMeta(region)
+
+		exporter.DoExporter(addr, matricPath, hostType, meta)
 	},
 }
 var (
@@ -38,6 +40,8 @@ func init() {
 	exporterCmd.Flags().StringVar(&addr, "addr", ":9128", "listen address")
 	exporterCmd.Flags().StringVar(&matricPath, "matricpath", "/metrics", "metric path")
 	exporterCmd.Flags().StringVar(&hostType, "hosttype", "", "host type")
+	exporterCmd.Flags().StringVar(&region, "region", "", "zep region")
+
 	RootCmd.AddCommand(exporterCmd)
 
 	// Here you will define your flags and configuration settings.
