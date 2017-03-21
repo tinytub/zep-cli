@@ -1,6 +1,7 @@
 package zeppelin
 
 /*
+#cgo CXXFLAGS: -std=c++11
 #cgo CFLAGS: -I ${SRCDIR}/include
 #cgo LDFLAGS: -L ${SRCDIR}/lib -lchash -lstdc++
 
