@@ -1,8 +1,8 @@
 package zeppelin
 
 /*
-#cgo CFLAGS: -I ./include
-#cgo LDFLAGS: -L ./lib -lchash -lstdc++
+#cgo CFLAGS: -I ${SRCDIR}/include
+#cgo LDFLAGS: -L ${SRCDIR}/lib -lchash -lstdc++
 
 #include "chash.h"
 */
@@ -89,14 +89,17 @@ func Set(tablename string, key string, value string, addrs []string) {
 
 	partcount := len(tableinfo.Pull.Info[0].Partitions)
 	//./src/zp_table.cc:  int par_num = std::hash<std::string>()(key) % partitions_.size();
-	//gcc -c chash.cc -std=c++11
-	//ar rv libchash.a chash.o
-	//mv libchash.a ../lib
-	//测试
-	//g++ -o chash chash.cc -std=c++11
+
+	/* 动态链接库的编译方法
+	gcc -c chash.cc -std=c++11
+	ar rv libchash.a chash.o
+	mv libchash.a ../lib
+	测试
+	g++ -o chash chash.cc -std=c++11
+	*/
+	fmt.Println(uint(C.chash(C.CString(key))))
 	parNum := uint(C.chash(C.CString(key))) % uint(partcount)
 	fmt.Println(parNum)
-
 	/*
 		//conn.mu.Lock()
 		val, _ := getBytes(value)

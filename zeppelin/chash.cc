@@ -8,6 +8,12 @@ uint64_t chash(const char *str) {
   return std::hash<std::string>()(std::string(str));
 }
 
-//int main() {
- //   std::cout << chash("hello world") << std::endl;
-//}
+/*g++ -o chash chash.cc -std=c++11
+int main() {
+   const int size = 20;
+   char key[size];
+   std::cout<<"Enter hash string:";
+   std::cin>>key;
+   std::cout << chash(key) << std::endl;
+}
+*/
