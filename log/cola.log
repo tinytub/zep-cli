@@ -761,3 +761,58 @@
 2017/03/21 18:47:53 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
 2017/03/21 18:47:53 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
 2017/03/21 18:47:53 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:40:51 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:40:51 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:40:51 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:41:18 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:41:18 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:41:18 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:42:08 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:42:08 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:42:08 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:43:51 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:43:51 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:43:51 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:43:59 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:43:59 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:43:59 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:44:13 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:44:13 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:44:13 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:44:31 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:44:31 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:44:31 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:49:35 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:49:35 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:49:35 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:50:52 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:50:52 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:50:53 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:51:27 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:51:27 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:51:27 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:55:25 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:55:25 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:55:26 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:55:26 connection.go:126: [0x4] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:55:26 zepcmd.go:223: [0x5] [INFO] [zeppelinecore] tablename is: t
+2017/03/22 10:55:26 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:55:26 connection.go:195: [0x7] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:55:26 connection.go:278: [0x8] [INFO] [zeppelinecore] type:INFOSTATS code:kWait msg:"Corruption: this node doesn't hold any table" 
+2017/03/22 10:56:31 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:56:31 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:56:31 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 10:58:45 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 10:58:45 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 10:58:45 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 11:00:55 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 11:00:55 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 11:00:55 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 11:01:00 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 11:01:00 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 11:01:00 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 11:01:00 connection.go:126: [0x4] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 11:01:00 zepcmd.go:223: [0x6] [INFO] [zeppelinecore] tablename is: t
+2017/03/22 11:01:00 connection.go:195: [0x5] [INFO] [zeppelinecore] recv 1
+2017/03/22 11:01:00 connection.go:195: [0x7] [INFO] [zeppelinecore] recv 2
+2017/03/22 11:01:00 connection.go:278: [0x8] [INFO] [zeppelinecore] type:INFOSTATS code:kWait msg:"Corruption: this node doesn't hold any table" 

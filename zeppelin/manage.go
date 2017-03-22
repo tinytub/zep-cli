@@ -1,7 +1,6 @@
 package zeppelin
 
 /*
-#cgo CXXFLAGS: -std=c++11
 #cgo CFLAGS: -I ${SRCDIR}/include
 #cgo LDFLAGS: -L ${SRCDIR}/lib -lchash -lstdc++
 
@@ -13,6 +12,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 var status = map[int32]string{
@@ -85,8 +85,9 @@ func CreateTable(name string, num int32, addrs []string) {
 }
 
 func Set(tablename string, key string, value string, addrs []string) {
-	conn := NewConn(addrs)
-	tableinfo, _ := conn.PullTable(tablename)
+	Mconn := NewConn(addrs)
+	fmt.Println(Mconn)
+	tableinfo, _ := Mconn.PullTable(tablename)
 
 	partcount := len(tableinfo.Pull.Info[0].Partitions)
 	//./src/zp_table.cc:  int par_num = std::hash<std::string>()(key) % partitions_.size();
@@ -98,9 +99,20 @@ func Set(tablename string, key string, value string, addrs []string) {
 	测试
 	g++ -o chash chash.cc -std=c++11
 	*/
-	fmt.Println(uint(C.chash(C.CString(key))))
 	parNum := uint(C.chash(C.CString(key))) % uint(partcount)
 	fmt.Println(parNum)
+	nodemaster := tableinfo.Pull.Info[0].Partitions[parNum-1].Master
+	//nodemaster.GetIp() + ":" + strconv.Itoa(int(nodemaster.GetPort()))
+
+	var nodeaddrs []string
+	nodeaddrs = append(nodeaddrs, nodemaster.GetIp()+":"+strconv.Itoa(int(nodemaster.GetPort())))
+	fmt.Println(nodeaddrs)
+
+	Nconn := NewConn(addrs)
+	fmt.Println(Nconn)
+	infostats, _ := Nconn.InfoStats(tablename)
+	fmt.Println(infostats)
+
 	/*
 		//conn.mu.Lock()
 		val, _ := getBytes(value)
