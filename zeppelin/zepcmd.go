@@ -268,6 +268,32 @@ func (c *Connection) MakeCmdSet(tablename string, key string, value []byte) ([]b
 	return proto.Marshal(raw_cmd)
 }
 
+func (c *Connection) Get(tablename string, key string) (*client.CmdResponse, error) {
+	cmd, err := c.MakeCmdGet(tablename, key)
+	if err != nil {
+		logger.Info("marshal proto error", err)
+	}
+	c.mu.Lock()
+
+	c.Send(cmd)
+	data := c.getData("node")
+	c.mu.Unlock()
+
+	return data.(*client.CmdResponse), nil
+}
+
+func (c *Connection) MakeCmdGet(tablename string, key string) ([]byte, error) {
+	raw_cmd := &client.CmdRequest{
+		Type: client.Type_GET.Enum(),
+		Get: &client.CmdRequest_Get{
+			TableName: &tablename,
+			Key:       &key,
+			//Value:     value,
+		},
+	}
+	return proto.Marshal(raw_cmd)
+}
+
 func (c *Connection) Ping() (*ZPMeta.MetaCmdResponse, error) {
 	cmd, err := c.MakeCmdPing()
 	if err != nil {

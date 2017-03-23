@@ -108,18 +108,23 @@ func Set(tablename string, key string, value string, addrs []string) {
 	var nodeaddrs []string
 	nodeaddrs = append(nodeaddrs, nodemaster.GetIp()+":"+strconv.Itoa(int(nodemaster.GetPort())))
 	fmt.Println(nodeaddrs)
-
 	Nconn := NewConn(nodeaddrs)
-	fmt.Println(Nconn)
-	infostats, _ := Nconn.InfoStats(tablename)
-	fmt.Println(infostats)
-
+	/*
+		fmt.Println(Nconn)
+		infostats, _ := Nconn.InfoStats(tablename)
+		fmt.Println(infostats)
+	*/
 	v := []byte(value)
 	setresp, err := Nconn.Set(tablename, key, v)
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(setresp)
+	getresp, err := Nconn.Get(tablename, key)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(getresp)
 	/*
 		//conn.mu.Lock()
 		val, _ := getBytes(value)
