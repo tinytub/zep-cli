@@ -816,3 +816,155 @@
 2017/03/22 11:01:00 connection.go:195: [0x5] [INFO] [zeppelinecore] recv 1
 2017/03/22 11:01:00 connection.go:195: [0x7] [INFO] [zeppelinecore] recv 2
 2017/03/22 11:01:00 connection.go:278: [0x8] [INFO] [zeppelinecore] type:INFOSTATS code:kWait msg:"Corruption: this node doesn't hold any table" 
+2017/03/22 11:04:19 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 11:04:19 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 11:04:19 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 11:04:19 connection.go:126: [0x4] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 11:04:19 zepcmd.go:223: [0x6] [INFO] [zeppelinecore] tablename is: t
+2017/03/22 11:04:19 connection.go:195: [0x5] [INFO] [zeppelinecore] recv 1
+2017/03/22 11:04:19 connection.go:195: [0x7] [INFO] [zeppelinecore] recv 2
+2017/03/22 11:04:19 connection.go:278: [0x8] [INFO] [zeppelinecore] type:INFOSTATS code:kWait msg:"Corruption: this node doesn't hold any table" 
+2017/03/22 11:04:33 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 11:04:33 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/22 11:04:33 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/22 11:04:33 connection.go:126: [0x4] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/22 11:04:33 zepcmd.go:223: [0x6] [INFO] [zeppelinecore] tablename is: t
+2017/03/22 11:04:33 connection.go:195: [0x5] [INFO] [zeppelinecore] recv 1
+2017/03/22 11:04:33 connection.go:195: [0x7] [INFO] [zeppelinecore] recv 2
+2017/03/22 11:04:33 connection.go:278: [0x8] [INFO] [zeppelinecore] type:INFOSTATS code:kWait msg:"Corruption: this node doesn't hold any table" 
+2017/03/23 15:24:17 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 15:24:17 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:24:18 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:24:18 connection.go:126: [0x4] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 15:24:18 zepcmd.go:223: [0x6] [INFO] [zeppelinecore] tablename is: t
+2017/03/23 15:24:18 connection.go:195: [0x5] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:24:18 connection.go:195: [0x7] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:24:18 connection.go:278: [0x8] [INFO] [zeppelinecore] type:INFOSTATS code:kWait msg:"Corruption: this node doesn't hold any table" 
+2017/03/23 15:30:17 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 15:30:17 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:30:17 connection.go:195: [0x3] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:30:17 connection.go:126: [0x4] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 15:30:17 connection.go:195: [0x5] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:30:17 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:30:17 connection.go:276: [0x7] [INFO] [zeppelinecore] unmarshaling error:  proto: bad wiretype for field client.CmdResponse_Sync.TableName: got wiretype 0, want 2
+2017/03/23 15:30:17 connection.go:278: [0x8] [INFO] [zeppelinecore] type:SET code:kWait msg:"Corruption: parse ip_port error" sync:<> 
+2017/03/23 15:35:12 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 15:35:12 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:35:12 connection.go:187: [0x3] [INFO] [zeppelinecore] tcp write done
+2017/03/23 15:35:12 connection.go:195: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:35:12 connection.go:126: [0x5] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 15:35:12 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:35:12 connection.go:187: [0x7] [INFO] [zeppelinecore] tcp write done
+2017/03/23 15:35:12 connection.go:195: [0x8] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:35:12 connection.go:276: [0x9] [INFO] [zeppelinecore] unmarshaling error:  proto: bad wiretype for field client.CmdResponse_Sync.TableName: got wiretype 0, want 2
+2017/03/23 15:35:12 connection.go:278: [0xa] [INFO] [zeppelinecore] type:SET code:kWait msg:"Corruption: parse ip_port error" sync:<> 
+2017/03/23 15:36:23 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 15:36:23 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:36:23 connection.go:187: [0x3] [INFO] [zeppelinecore] tcp write done
+2017/03/23 15:36:23 connection.go:195: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:36:23 connection.go:126: [0x5] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 15:36:23 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:36:23 connection.go:187: [0x7] [INFO] [zeppelinecore] tcp write done
+2017/03/23 15:36:23 connection.go:195: [0x8] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:36:23 connection.go:276: [0x9] [INFO] [zeppelinecore] unmarshaling error:  proto: bad wiretype for field client.CmdResponse_Sync.TableName: got wiretype 0, want 2
+2017/03/23 15:36:23 connection.go:278: [0xa] [INFO] [zeppelinecore] type:SET code:kWait msg:"Corruption: parse ip_port error" sync:<> 
+2017/03/23 15:38:22 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 15:38:22 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:38:22 connection.go:187: [0x3] [INFO] [zeppelinecore] tcp write done
+2017/03/23 15:38:22 connection.go:195: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:38:22 connection.go:126: [0x5] [INFO] [zeppelinecore] 10.203.11.76:13219
+2017/03/23 15:38:22 zepcmd.go:223: [0x7] [INFO] [zeppelinecore] tablename is: t
+2017/03/23 15:38:22 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:38:22 connection.go:187: [0x8] [INFO] [zeppelinecore] tcp write done
+2017/03/23 15:38:22 connection.go:195: [0x9] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:38:22 connection.go:278: [0xa] [INFO] [zeppelinecore] type:INFOSTATS code:kOk info_stats:<table_name:"t" total_querys:3 qps:0 > 
+2017/03/23 15:38:40 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 15:38:40 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:38:40 connection.go:187: [0x3] [INFO] [zeppelinecore] tcp write done
+2017/03/23 15:38:40 connection.go:195: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:38:40 connection.go:126: [0x5] [INFO] [zeppelinecore] 10.203.11.76:13219
+2017/03/23 15:38:40 zepcmd.go:223: [0x7] [INFO] [zeppelinecore] tablename is: t
+2017/03/23 15:38:40 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 1
+2017/03/23 15:38:40 connection.go:187: [0x8] [INFO] [zeppelinecore] tcp write done
+2017/03/23 15:38:40 connection.go:195: [0x9] [INFO] [zeppelinecore] recv 2
+2017/03/23 15:38:40 connection.go:278: [0xa] [INFO] [zeppelinecore] type:INFOSTATS code:kOk info_stats:<table_name:"t" total_querys:4 qps:0 > 
+2017/03/23 15:38:40 connection.go:187: [0xb] [INFO] [zeppelinecore] tcp write done
+2017/03/23 15:38:40 connection.go:195: [0xc] [INFO] [zeppelinecore] recv 3
+2017/03/23 15:38:40 connection.go:278: [0xd] [INFO] [zeppelinecore] type:SET code:kOk 
+2017/03/23 16:04:04 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 16:04:04 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:04:04 connection.go:187: [0x3] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:04:04 connection.go:195: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:04:04 connection.go:126: [0x5] [INFO] [zeppelinecore] 10.203.11.76:13219
+2017/03/23 16:04:04 zepcmd.go:223: [0x7] [INFO] [zeppelinecore] tablename is: t
+2017/03/23 16:04:04 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:04:04 connection.go:187: [0x8] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:04:04 connection.go:195: [0x9] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:04:04 connection.go:278: [0xa] [INFO] [zeppelinecore] type:INFOSTATS code:kOk info_stats:<table_name:"t" total_querys:6 qps:0 > 
+2017/03/23 16:04:04 connection.go:187: [0xb] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:04:04 connection.go:195: [0xc] [INFO] [zeppelinecore] recv 3
+2017/03/23 16:04:04 connection.go:278: [0xd] [INFO] [zeppelinecore] type:SET code:kOk 
+2017/03/23 16:04:22 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 16:04:22 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:04:22 connection.go:187: [0x3] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:04:22 connection.go:195: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:04:22 connection.go:126: [0x5] [INFO] [zeppelinecore] 10.203.11.76:13219
+2017/03/23 16:04:22 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:04:22 zepcmd.go:223: [0x7] [INFO] [zeppelinecore] tablename is: t
+2017/03/23 16:04:22 connection.go:187: [0x8] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:04:22 connection.go:195: [0x9] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:04:22 connection.go:278: [0xa] [INFO] [zeppelinecore] type:INFOSTATS code:kOk info_stats:<table_name:"t" total_querys:8 qps:0 > 
+2017/03/23 16:04:22 connection.go:187: [0xb] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:04:22 connection.go:195: [0xc] [INFO] [zeppelinecore] recv 3
+2017/03/23 16:04:22 connection.go:278: [0xd] [INFO] [zeppelinecore] type:SET code:kOk 
+2017/03/23 16:06:08 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 16:06:08 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:06:08 connection.go:187: [0x3] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:06:08 connection.go:195: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:06:08 connection.go:126: [0x5] [INFO] [zeppelinecore] 10.203.11.76:13219
+2017/03/23 16:06:08 zepcmd.go:223: [0x7] [INFO] [zeppelinecore] tablename is: t
+2017/03/23 16:06:08 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:06:08 connection.go:187: [0x8] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:06:08 connection.go:195: [0x9] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:06:08 connection.go:278: [0xa] [INFO] [zeppelinecore] type:INFOSTATS code:kOk info_stats:<table_name:"t" total_querys:10 qps:0 > 
+2017/03/23 16:06:08 connection.go:187: [0xb] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:06:08 connection.go:195: [0xc] [INFO] [zeppelinecore] recv 3
+2017/03/23 16:06:08 connection.go:278: [0xd] [INFO] [zeppelinecore] type:SET code:kOk 
+2017/03/23 16:06:17 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 16:06:17 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:06:17 connection.go:187: [0x3] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:06:17 connection.go:195: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:06:17 connection.go:126: [0x5] [INFO] [zeppelinecore] 10.203.11.76:13219
+2017/03/23 16:06:17 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:06:17 zepcmd.go:223: [0x7] [INFO] [zeppelinecore] tablename is: t
+2017/03/23 16:06:17 connection.go:187: [0x8] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:06:17 connection.go:195: [0x9] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:06:17 connection.go:278: [0xa] [INFO] [zeppelinecore] type:INFOSTATS code:kOk info_stats:<table_name:"t" total_querys:12 qps:0 > 
+2017/03/23 16:06:17 connection.go:187: [0xb] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:06:17 connection.go:195: [0xc] [INFO] [zeppelinecore] recv 3
+2017/03/23 16:06:17 connection.go:278: [0xd] [INFO] [zeppelinecore] type:SET code:kOk 
+2017/03/23 16:07:36 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 16:07:36 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:07:36 connection.go:187: [0x3] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:07:36 connection.go:195: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:07:36 connection.go:126: [0x5] [INFO] [zeppelinecore] 10.203.11.76:13219
+2017/03/23 16:07:36 zepcmd.go:223: [0x7] [INFO] [zeppelinecore] tablename is: t
+2017/03/23 16:07:36 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:07:36 connection.go:187: [0x8] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:07:36 connection.go:195: [0x9] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:07:36 connection.go:278: [0xa] [INFO] [zeppelinecore] type:INFOSTATS code:kOk info_stats:<table_name:"t" total_querys:14 qps:0 > 
+2017/03/23 16:07:36 connection.go:187: [0xb] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:07:36 connection.go:195: [0xc] [INFO] [zeppelinecore] recv 3
+2017/03/23 16:07:36 connection.go:278: [0xd] [INFO] [zeppelinecore] type:SET code:kOk 
+2017/03/23 16:08:12 connection.go:126: [0x1] [INFO] [zeppelinecore] 10.203.11.75:9221
+2017/03/23 16:08:12 connection.go:195: [0x2] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:08:12 connection.go:187: [0x3] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:08:12 connection.go:195: [0x4] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:08:12 connection.go:126: [0x5] [INFO] [zeppelinecore] 10.203.11.76:13219
+2017/03/23 16:08:12 zepcmd.go:223: [0x7] [INFO] [zeppelinecore] tablename is: t
+2017/03/23 16:08:12 connection.go:195: [0x6] [INFO] [zeppelinecore] recv 1
+2017/03/23 16:08:12 connection.go:187: [0x8] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:08:12 connection.go:195: [0x9] [INFO] [zeppelinecore] recv 2
+2017/03/23 16:08:12 connection.go:278: [0xa] [INFO] [zeppelinecore] type:INFOSTATS code:kOk info_stats:<table_name:"t" total_querys:16 qps:0 > 
+2017/03/23 16:08:12 connection.go:187: [0xb] [INFO] [zeppelinecore] tcp write done
+2017/03/23 16:08:12 connection.go:278: [0xd] [INFO] [zeppelinecore] type:SET code:kOk 

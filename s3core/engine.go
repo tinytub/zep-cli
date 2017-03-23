@@ -161,21 +161,38 @@ func GetOBJ(svc *s3.S3, bucket, key, output string) (string, error) {
 }
 
 func ListOBJ(svc *s3.S3, bucket string) {
-	listobj := &s3.ListObjectsInput{
-		Bucket: &bucket,
-	}
-	i := 0
-	err := svc.ListObjectsPages(listobj, func(p *s3.ListObjectsOutput, last bool) (shouldContinue bool) {
-		fmt.Println("Page,", i)
-		i++
-		for _, obj := range p.Contents {
-			fmt.Println("Object:", *obj.Key)
+	/*
+		listobj := &s3.ListObjectsInput{
+			Bucket: &bucket,
 		}
-		return true
-	})
-	if err != nil {
-		fmt.Println("failed to list objects", err)
+	*/
+	listobj := &s3.ListObjectsInput{
+		Bucket: aws.String(bucket),
+		//	Prefix:    aws.String("docker/registry/v2/repositories/golang/_uploads/7658c613-fc51-4066-95d4-e651ed84e9c2/hashstates/sha256/"),
+		Prefix:    aws.String("docker/registry/v2/repositories/golang/_uploads/0c7abc71-ef12-466e-a55d-221d4a8fe931/hashstates/sha256/"),
+		Delimiter: aws.String("/"),
+		MaxKeys:   aws.Int64(1000),
 	}
+
+	resp, err := svc.ListObjects(listobj)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(resp)
+	/*
+		i := 0
+		err := svc.ListObjectsPages(listobj, func(p *s3.ListObjectsOutput, last bool) (shouldContinue bool) {
+			fmt.Println("Page,", i)
+			i++
+			for _, obj := range p.Contents {
+				fmt.Println("Object:", *obj.Key)
+			}
+			return true
+		})
+		if err != nil {
+			fmt.Println("failed to list objects", err)
+		}
+	*/
 }
 
 func DelOBJ(svc *s3.S3, bucket, key string) (bool, error) {
@@ -188,4 +205,16 @@ func DelOBJ(svc *s3.S3, bucket, key string) (bool, error) {
 		return false, err
 	}
 	return true, nil
+}
+
+func HeadOBJ(svc *s3.S3, bucket, key string) {
+	headobj := &s3.HeadObjectInput{
+		Bucket: aws.String(bucket),
+		Key:    aws.String(key),
+	}
+	req, err := svc.HeadObjectRequest(headobj)
+	fmt.Println(req)
+	fmt.Println(err)
+	//svc.HeadBucketRequest()
+
 }

@@ -99,6 +99,7 @@ func Set(tablename string, key string, value string, addrs []string) {
 	测试
 	g++ -o chash chash.cc -std=c++11
 	*/
+	fmt.Println(C.chash(C.CString(key)))
 	parNum := uint(C.chash(C.CString(key))) % uint(partcount)
 	fmt.Println(parNum)
 	nodemaster := tableinfo.Pull.Info[0].Partitions[parNum-1].Master
@@ -108,11 +109,17 @@ func Set(tablename string, key string, value string, addrs []string) {
 	nodeaddrs = append(nodeaddrs, nodemaster.GetIp()+":"+strconv.Itoa(int(nodemaster.GetPort())))
 	fmt.Println(nodeaddrs)
 
-	Nconn := NewConn(addrs)
+	Nconn := NewConn(nodeaddrs)
 	fmt.Println(Nconn)
 	infostats, _ := Nconn.InfoStats(tablename)
 	fmt.Println(infostats)
 
+	v := []byte(value)
+	setresp, err := Nconn.Set(tablename, key, v)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(setresp)
 	/*
 		//conn.mu.Lock()
 		val, _ := getBytes(value)

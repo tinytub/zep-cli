@@ -140,6 +140,18 @@ var s3DelOBJ = &cobra.Command{
 	},
 }
 
+var s3HeadOBJ = &cobra.Command{
+	Use:   "headobj",
+	Short: "zep s3 head obj",
+	Long: `A tool for zep s3 gateway
+		for normal list obj`,
+	Run: func(cmd *cobra.Command, args []string) {
+		edp, acckey, sec := checkRegion(region)
+		svc := s3core.NewClient(edp, acckey, sec)
+		s3core.HeadOBJ(svc, bucket, key)
+	},
+}
+
 var s3Test = &cobra.Command{
 	Use:   "test",
 	Short: "zep s3 test",
@@ -292,6 +304,10 @@ func init() {
 	s3DelOBJ.Flags().StringVarP(&key, "key", "k", "monit", "which key")
 	s3DelOBJ.Flags().StringVar(&region, "region", "", "s3 region")
 
+	s3HeadOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
+	s3HeadOBJ.Flags().StringVarP(&key, "key", "k", "monit", "which key")
+	s3HeadOBJ.Flags().StringVar(&region, "region", "", "s3 region")
+
 	s3Test.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
 	s3Test.Flags().StringVarP(&tekey, "key", "k", teKey, "which key")
 	s3Test.Flags().StringVarP(&value, "value", "v", "OK", "which value")
@@ -307,6 +323,7 @@ func init() {
 	s3Cmd.AddCommand(s3GetOBJ)
 	s3Cmd.AddCommand(s3ListOBJ)
 	s3Cmd.AddCommand(s3DelOBJ)
+	s3Cmd.AddCommand(s3HeadOBJ)
 	s3Cmd.AddCommand(s3CreateBucket)
 	s3Cmd.AddCommand(s3DeleteBucket)
 	s3Cmd.AddCommand(s3Test)

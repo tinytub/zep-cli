@@ -184,7 +184,7 @@ func (c *Connection) Send(data []byte) error {
 		return err
 	}
 
-	//logger.Info("tcp write done")
+	logger.Info("tcp write done")
 	c.HasRequest <- true
 	return nil
 }
