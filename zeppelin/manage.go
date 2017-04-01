@@ -85,30 +85,9 @@ func CreateTable(name string, num int32, addrs []string) {
 }
 
 func Set(tablename string, key string, value string, addrs []string) {
-	Mconn := NewConn(addrs)
-	fmt.Println(Mconn)
-	tableinfo, _ := Mconn.PullTable(tablename)
-
-	partcount := len(tableinfo.Pull.Info[0].Partitions)
-	//./src/zp_table.cc:  int par_num = std::hash<std::string>()(key) % partitions_.size();
-
-	/* 动态链接库的编译方法
-	gcc -c chash.cc -std=c++11
-	ar rv libchash.a chash.o
-	mv libchash.a ../lib
-	测试
-	g++ -o chash chash.cc -std=c++11
-	*/
-	fmt.Println(C.chash(C.CString(key)))
-	parNum := uint(C.chash(C.CString(key))) % uint(partcount)
-	fmt.Println(parNum)
-	nodemaster := tableinfo.Pull.Info[0].Partitions[parNum-1].Master
-	//nodemaster.GetIp() + ":" + strconv.Itoa(int(nodemaster.GetPort()))
-
-	var nodeaddrs []string
-	nodeaddrs = append(nodeaddrs, nodemaster.GetIp()+":"+strconv.Itoa(int(nodemaster.GetPort())))
-	fmt.Println(nodeaddrs)
-	Nconn := NewConn(nodeaddrs)
+	partlocale := locationPartition(tablename, key, addrs)
+	fmt.Println(partlocale)
+	Nconn := NewConn(partlocale)
 	/*
 		fmt.Println(Nconn)
 		infostats, _ := Nconn.InfoStats(tablename)
@@ -120,27 +99,44 @@ func Set(tablename string, key string, value string, addrs []string) {
 		fmt.Println(err)
 	}
 	fmt.Println(setresp)
+}
+
+func Get(tablename string, key string, value string, addrs []string) {
+	partlocale := locationPartition(tablename, key, addrs)
+	Nconn := NewConn(partlocale)
+
 	getresp, err := Nconn.Get(tablename, key)
+	Nconn.RecvDone <- true
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(getresp)
-	/*
-		//conn.mu.Lock()
-		val, _ := getBytes(value)
-		//fmt.Println([]byte(value))
-		fmt.Println(val)
-		pNum := getPartition(conn, tablename)
-		fmt.Println(pNum)
-		//data, _ := conn.Set(tablename, key, val)
-		//data, _ := conn.Set(tablename, key, []byte(value))
-		//fmt.Println(data)
-		conn.RecvDone <- true
-		return
-	*/
+
 }
 
-func locationNode() {}
+func locationPartition(tablename string, key string, addrs []string) []string {
+	Mconn := NewConn(addrs)
+	tableinfo, _ := Mconn.PullTable(tablename)
+	//./src/zp_table.cc:  int par_num = std::hash<std::string>()(key) % partitions_.size();
+
+	/* 动态链接库的编译方法
+	gcc -c chash.cc -std=c++11
+	ar rv libchash.a chash.o
+	mv libchash.a ../lib
+	测试
+	g++ -o chash chash.cc -std=c++11
+	*/
+
+	partcount := len(tableinfo.Pull.Info[0].Partitions)
+	parNum := uint(C.chash(C.CString(key))) % uint(partcount)
+	nodemaster := tableinfo.Pull.Info[0].Partitions[parNum].GetMaster()
+
+	Mconn.RecvDone <- true
+	var nodeaddrs []string
+	nodeaddrs = append(nodeaddrs, nodemaster.GetIp()+":"+strconv.Itoa(int(nodemaster.GetPort())))
+	return nodeaddrs
+
+}
 
 func getPartition(conn *Connection, tablename string) int {
 
@@ -155,6 +151,7 @@ func getPartition(conn *Connection, tablename string) int {
 	for _, part := range data.Pull.Info {
 		pNum += len(part.Partitions)
 	}
+	fmt.Println(pNum)
 	return pNum
 }
 

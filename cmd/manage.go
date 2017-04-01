@@ -99,6 +99,9 @@ var cmdGet = &cobra.Command{
 	Short: "get key from table",
 	Long:  "get key from table",
 	Run: func(cmd *cobra.Command, args []string) {
+		meta := checkZepRegionNGetMeta(region)
+
+		zeppelin.Get(tname, ukey, uvalue, meta)
 	},
 }
 
@@ -125,6 +128,12 @@ func init() {
 	cmdSet.Flags().StringVarP(&uvalue, "value", "v", "", "value")
 	cmdSet.Flags().StringVar(&region, "region", "", "zep region")
 	manageCmd.AddCommand(cmdSet)
+
+	cmdGet.Flags().StringVarP(&tname, "name", "t", "", "table name")
+	cmdGet.Flags().StringVarP(&ukey, "key", "k", "", "key")
+	cmdGet.Flags().StringVarP(&uvalue, "value", "v", "", "value")
+	cmdGet.Flags().StringVar(&region, "region", "", "zep region")
+	manageCmd.AddCommand(cmdGet)
 
 	cmdListNode.Flags().StringVar(&region, "region", "", "zep region")
 
