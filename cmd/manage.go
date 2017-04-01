@@ -120,26 +120,29 @@ func init() {
 
 	cmdCreateTable.Flags().StringVarP(&tname, "name", "n", "test", "table name")
 	cmdCreateTable.Flags().Int32VarP(&tnum, "num", "N", 10, "table's partition num")
-	cmdCreateTable.Flags().StringVar(&region, "region", "", "zep region")
+	//	cmdCreateTable.Flags().StringVar(&region, "region", "", "zep region")
 	manageCmd.AddCommand(cmdCreateTable)
 
 	cmdSet.Flags().StringVarP(&tname, "name", "t", "", "table name")
 	cmdSet.Flags().StringVarP(&ukey, "key", "k", "", "key")
 	cmdSet.Flags().StringVarP(&uvalue, "value", "v", "", "value")
-	cmdSet.Flags().StringVar(&region, "region", "", "zep region")
+	//	cmdSet.Flags().StringVar(&region, "region", "", "zep region")
 	manageCmd.AddCommand(cmdSet)
 
 	cmdGet.Flags().StringVarP(&tname, "name", "t", "", "table name")
 	cmdGet.Flags().StringVarP(&ukey, "key", "k", "", "key")
 	cmdGet.Flags().StringVarP(&uvalue, "value", "v", "", "value")
-	cmdGet.Flags().StringVar(&region, "region", "", "zep region")
+	//	cmdGet.Flags().StringVar(&region, "region", "", "zep region")
+
+	manageCmd.PersistentFlags().StringVar(&region, "region", "", "s3 region")
+
 	manageCmd.AddCommand(cmdGet)
 
-	cmdListNode.Flags().StringVar(&region, "region", "", "zep region")
+	//	cmdListNode.Flags().StringVar(&region, "region", "", "zep region")
 
-	cmdListMeta.Flags().StringVar(&region, "region", "", "zep region")
+	//	cmdListMeta.Flags().StringVar(&region, "region", "", "zep region")
 
-	cmdListTable.Flags().StringVar(&region, "region", "", "zep region")
+	//	cmdListTable.Flags().StringVar(&region, "region", "", "zep region")
 
 }
 

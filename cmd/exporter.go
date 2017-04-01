@@ -40,7 +40,9 @@ func init() {
 	exporterCmd.Flags().StringVar(&addr, "addr", ":9128", "listen address")
 	exporterCmd.Flags().StringVar(&matricPath, "matricpath", "/metrics", "metric path")
 	exporterCmd.Flags().StringVar(&hostType, "hosttype", "", "host type")
-	exporterCmd.Flags().StringVar(&region, "region", "", "zep region")
+	//	exporterCmd.Flags().StringVar(&region, "region", "", "zep region")
+
+	exporterCmd.PersistentFlags().StringVar(&region, "region", "", "s3 region")
 
 	RootCmd.AddCommand(exporterCmd)
 

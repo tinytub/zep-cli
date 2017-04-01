@@ -98,17 +98,19 @@ func init() {
 	s3MoSetOBJ.Flags().StringVarP(&mokey, "key", "k", moKey, "which key")
 	s3MoSetOBJ.Flags().StringVarP(&value, "value", "v", "OK", "which value")
 	s3MoSetOBJ.Flags().StringVarP(&filename, "f", "f", "", "filename which you want upload")
-	s3MoSetOBJ.Flags().StringVar(&region, "region", "", "s3 region")
+	//	s3MoSetOBJ.Flags().StringVar(&region, "region", "", "s3 region")
 
 	s3MoGetOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
 	s3MoGetOBJ.Flags().StringVarP(&mokey, "key", "k", moKey, "which key")
-	s3MoGetOBJ.Flags().StringVar(&region, "region", "", "s3 region")
+	//	s3MoGetOBJ.Flags().StringVar(&region, "region", "", "s3 region")
 
 	s3MoSetGetDelOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
 	s3MoSetGetDelOBJ.Flags().StringVarP(&mokey, "key", "k", moKey, "which key")
 	s3MoSetGetDelOBJ.Flags().StringVarP(&value, "value", "v", "OK", "which value")
 	s3MoSetGetDelOBJ.Flags().StringVarP(&filename, "f", "f", "", "filename which you want upload")
-	s3MoSetGetDelOBJ.Flags().StringVar(&region, "region", "", "s3 region")
+	//	s3MoSetGetDelOBJ.Flags().StringVar(&region, "region", "", "s3 region")
+
+	monitorCmd.PersistentFlags().StringVar(&region, "region", "", "s3 region")
 
 	monitorCmd.AddCommand(s3MoSetOBJ)
 	monitorCmd.AddCommand(s3MoGetOBJ)

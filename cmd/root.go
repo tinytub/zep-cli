@@ -41,9 +41,18 @@ to quickly create a Cobra application.`,
 	//	Run: func(cmd *cobra.Command, args []string) { },
 }
 
+/*
+var (
+	region string
+)
+*/
+
 // Execute adds all child commands to the root command sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
+	//RootCmd.Flags().StringVar(&region, "region", "", "cluster region")
+
+	fmt.Println("test")
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(-1)
