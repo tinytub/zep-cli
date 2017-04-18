@@ -16,7 +16,6 @@ package collectors
 
 import (
 	"fmt"
-	"stark/utils/log"
 	"strconv"
 
 	logging "github.com/op/go-logging"
@@ -184,7 +183,7 @@ func (c *ZepClusterCollector) Describe(ch chan<- *prometheus.Desc) {
 // cluster usage over to the provided prometheus Metric channel.
 func (c *ZepClusterCollector) Collect(ch chan<- prometheus.Metric) {
 	if err := c.collect(); err != nil {
-		log.Error("[ERROR] failed collecting cluster usage metrics:", err)
+		loger.Error("[ERROR] failed collecting cluster usage metrics:", err)
 		return
 	}
 	/*
