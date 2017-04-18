@@ -15,16 +15,12 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/tinytub/zep-cli/cmd"
 	"github.com/tinytub/zep-cli/logging"
 )
 
 func main() {
-	fmt.Println("test main")
 
 	logging.Configure()
-	fmt.Println("test main")
 	cmd.Execute()
 }

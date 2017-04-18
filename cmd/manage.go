@@ -23,6 +23,11 @@ import (
 	"github.com/tinytub/zep-cli/zeppelin"
 )
 
+var status = map[int32]string{
+	0: "up",
+	1: "down",
+}
+
 // manageCmd represents the manage command
 var manageCmd = &cobra.Command{
 	Use:   "manage",
@@ -47,7 +52,14 @@ var cmdListNode = &cobra.Command{
 	Long:  "list all zeppelin nodes",
 	Run: func(cmd *cobra.Command, args []string) {
 		meta := checkZepRegionNGetMeta(region)
-		zeppelin.ListNode(meta)
+		nodes, err := zeppelin.ListNode(meta)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		for _, node := range nodes {
+			fmt.Printf("IP: %s, Port: %d, Status: %s\n", *node.Node.Ip, *node.Node.Port, status[*node.Status])
+		}
 	},
 }
 
@@ -58,7 +70,17 @@ var cmdListMeta = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		meta := checkZepRegionNGetMeta(region)
 
-		zeppelin.ListMeta(meta)
+		metas, err := zeppelin.ListMeta(meta)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println("Leader:")
+		fmt.Printf("IP: %s, Port: %d\n", *metas.Leader.Ip, *metas.Leader.Port)
+		fmt.Println("Followers:")
+		for _, follower := range metas.Followers {
+			fmt.Printf("IP: %s, Port: %d\n", *follower.Ip, *follower.Port)
+		}
 	},
 }
 
@@ -69,7 +91,15 @@ var cmdListTable = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		meta := checkZepRegionNGetMeta(region)
 
-		zeppelin.ListTable(meta)
+		tablelist, err := zeppelin.ListTable(meta)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		for _, table := range tablelist.Name {
+			fmt.Println(table)
+		}
+
 	},
 }
 
@@ -105,6 +135,38 @@ var cmdGet = &cobra.Command{
 	},
 }
 
+var cmdSpace = &cobra.Command{
+	Use:   "space",
+	Short: "space usage and remain for specified table",
+	Run: func(cmd *cobra.Command, args []string) {
+		meta := checkZepRegionNGetMeta(region)
+
+		used, remain, err := zeppelin.Space(tname, meta)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Printf("Table: %s, Used: %d bytes, Ramain: %d bytes\n", tname, used, remain)
+
+	},
+}
+
+var cmdStats = &cobra.Command{
+	Use:   "stats",
+	Short: "QPS and total Query for specified table",
+	Run: func(cmd *cobra.Command, args []string) {
+		meta := checkZepRegionNGetMeta(region)
+
+		query, qps, err := zeppelin.Stats(tname, meta)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Printf("Table: %s, Query: %d, QPS: %d \n", tname, query, qps)
+
+	},
+}
+
 var tname string
 var tnum int32
 var ukey string
@@ -133,10 +195,15 @@ func init() {
 	cmdGet.Flags().StringVarP(&ukey, "key", "k", "", "key")
 	cmdGet.Flags().StringVarP(&uvalue, "value", "v", "", "value")
 	//	cmdGet.Flags().StringVar(&region, "region", "", "zep region")
-
-	manageCmd.PersistentFlags().StringVar(&region, "region", "", "s3 region")
-
 	manageCmd.AddCommand(cmdGet)
+
+	cmdSpace.Flags().StringVarP(&tname, "name", "t", "", "table name")
+	manageCmd.AddCommand(cmdSpace)
+
+	cmdStats.Flags().StringVarP(&tname, "name", "t", "", "table name")
+	manageCmd.AddCommand(cmdStats)
+
+	manageCmd.PersistentFlags().StringVar(&region, "region", "", "zep region")
 
 	//	cmdListNode.Flags().StringVar(&region, "region", "", "zep region")
 

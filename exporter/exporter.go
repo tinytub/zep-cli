@@ -23,7 +23,6 @@ import (
 	"github.com/tinytub/zep-cli/exporter/collectors"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/tinytub/zep-cli/zeppelin"
 )
 
 // ZepExporter wraps all the Zep collectors and provides a single global
@@ -42,7 +41,7 @@ var _ prometheus.Collector = &ZepExporter{}
 // NewZepExporter creates an instance to ZepExporter and returns a reference
 // to it. We can choose to enable a collector to extract stats out of by adding
 // it to the list of collectors.
-func NewZepExporter(conn *zeppelin.Connection, hostType string) *ZepExporter {
+func NewZepExporter(addrs []string, hostType string) *ZepExporter {
 	var exporter *ZepExporter
 	/*
 		switch hostType {
@@ -67,7 +66,7 @@ func NewZepExporter(conn *zeppelin.Connection, hostType string) *ZepExporter {
 	*/
 	exporter = &ZepExporter{
 		collectors: []prometheus.Collector{
-			collectors.NewZepClusterCollector(conn),
+			collectors.NewZepClusterCollector(addrs),
 		},
 	}
 	return exporter
@@ -95,8 +94,10 @@ func (c *ZepExporter) Collect(ch chan<- prometheus.Metric) {
 
 func DoExporter(addr, metricsPath, hostType string, addrs []string) {
 
-	conn := zeppelin.NewConn(addrs)
-	prometheus.MustRegister(NewZepExporter(conn, hostType))
+	log.Println(addrs)
+	//conn := zeppelin.NewConn(addrs)
+	//prometheus.MustRegister(NewZepExporter(conn, hostType))
+	prometheus.MustRegister(NewZepExporter(addrs, hostType))
 
 	http.Handle(metricsPath, prometheus.Handler())
 

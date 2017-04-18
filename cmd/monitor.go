@@ -16,11 +16,13 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/tinytub/zep-cli/s3core"
+	"github.com/tinytub/zep-cli/zeppelin"
 )
 
 // monitorCmd represents the monitor command
@@ -88,33 +90,53 @@ var s3MoSetGetDelOBJ = &cobra.Command{
 	},
 }
 
+var zepMetaQuorum = &cobra.Command{
+	Use:   "metaquorum",
+	Short: "meta quorum",
+	Run: func(cmd *cobra.Command, args []string) {
+		configedMeta := checkZepRegionNGetMeta(region)
+		m, _ := zeppelin.ListMeta(configedMeta)
+		var metalist []string
+		metalist = append(metalist, m.Leader.GetIp()+":"+strconv.Itoa(int(m.Leader.GetPort())))
+		for _, f := range m.GetFollowers() {
+			metalist = append(metalist, f.GetIp()+":"+strconv.Itoa(int(f.GetPort())))
+		}
+
+		quorum := len(m.Followers) + 1
+
+		fmt.Println(quorum)
+		for _, om := range metalist {
+			fmt.Println(om)
+			// 超时会 hang 住, 需要一个 meta 在线情况的接口. 或者添加 tcp 超时时间
+			zeppelin.ListMeta([]string{"10.1.1.1:3333"})
+			// 超时需要反 error 上层对错误进行控制,我居然没有从函数反 error...惊了
+			zeppelin.ListMeta([]string{om})
+		}
+
+	},
+}
+
 var mokey string
 
 func init() {
+
 	t := time.Now()
 	moKey := fmt.Sprintf("monit-%02d-%02d", t.Hour(), t.Minute())
 
-	s3MoSetOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
-	s3MoSetOBJ.Flags().StringVarP(&mokey, "key", "k", moKey, "which key")
-	s3MoSetOBJ.Flags().StringVarP(&value, "value", "v", "OK", "which value")
+	//s3MoSetOBJ.Flags().StringVarP(&mokey, "mokey", "k", moKey, "which key")
 	s3MoSetOBJ.Flags().StringVarP(&filename, "f", "f", "", "filename which you want upload")
-	//	s3MoSetOBJ.Flags().StringVar(&region, "region", "", "s3 region")
 
-	s3MoGetOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
-	s3MoGetOBJ.Flags().StringVarP(&mokey, "key", "k", moKey, "which key")
-	//	s3MoGetOBJ.Flags().StringVar(&region, "region", "", "s3 region")
-
-	s3MoSetGetDelOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
-	s3MoSetGetDelOBJ.Flags().StringVarP(&mokey, "key", "k", moKey, "which key")
-	s3MoSetGetDelOBJ.Flags().StringVarP(&value, "value", "v", "OK", "which value")
 	s3MoSetGetDelOBJ.Flags().StringVarP(&filename, "f", "f", "", "filename which you want upload")
-	//	s3MoSetGetDelOBJ.Flags().StringVar(&region, "region", "", "s3 region")
 
+	monitorCmd.PersistentFlags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
+	monitorCmd.PersistentFlags().StringVarP(&mokey, "key", "k", moKey, "which key")
+	monitorCmd.PersistentFlags().StringVarP(&value, "value", "v", "OK", "which value")
 	monitorCmd.PersistentFlags().StringVar(&region, "region", "", "s3 region")
 
 	monitorCmd.AddCommand(s3MoSetOBJ)
 	monitorCmd.AddCommand(s3MoGetOBJ)
 	monitorCmd.AddCommand(s3MoSetGetDelOBJ)
+	monitorCmd.AddCommand(zepMetaQuorum)
 	RootCmd.AddCommand(monitorCmd)
 
 	viper.Get("s3")

@@ -1,7 +1,8 @@
 package zeppelin
 
 import (
-	"os"
+	"errors"
+	"fmt"
 	"time"
 
 	"github.com/tinytub/zep-cli/proto/ZPMeta"
@@ -19,8 +20,11 @@ func (c *Connection) PullTable(tablename string) (*ZPMeta.MetaCmdResponse, error
 	}
 	//	c.Send(cmd)
 	c.Send(cmd)
-	data := c.getData("meta")
-	//fmt.Println(data)
+	data, err := c.getData("meta")
+	if err != nil {
+		return data.(*ZPMeta.MetaCmdResponse), err
+	}
+	fmt.Println(data)
 	c.mu.Unlock()
 	return data.(*ZPMeta.MetaCmdResponse), nil
 }
@@ -62,7 +66,11 @@ func (c *Connection) PullNode(node string, port int32) (*ZPMeta.MetaCmdResponse,
 	}
 	//	c.Send(cmd)
 	c.Send(cmd)
-	data := c.getData("meta")
+	data, err := c.getData("meta")
+	if err != nil {
+		return data.(*ZPMeta.MetaCmdResponse), err
+	}
+
 	c.mu.Unlock()
 	return data.(*ZPMeta.MetaCmdResponse), nil
 }
@@ -98,7 +106,11 @@ func (c *Connection) ListTable() (*ZPMeta.MetaCmdResponse, error) {
 	//	c.Data = make(chan []byte, 2)
 
 	c.Send(cmd)
-	data := c.getData("meta")
+	data, err := c.getData("meta")
+	if err != nil {
+		return data.(*ZPMeta.MetaCmdResponse), err
+	}
+
 	/*
 		c.Send(cmd2)
 		data2 := c.getData()
@@ -126,7 +138,11 @@ func (c *Connection) ListNode() (*ZPMeta.MetaCmdResponse, error) {
 	c.Send(cmd)
 	c.mu.Lock()
 
-	data := c.getData("meta")
+	data, err := c.getData("meta")
+	if err != nil {
+		return data.(*ZPMeta.MetaCmdResponse), err
+	}
+
 	c.mu.Unlock()
 
 	return data.(*ZPMeta.MetaCmdResponse), nil
@@ -150,7 +166,11 @@ func (c *Connection) ListMeta() (*ZPMeta.MetaCmdResponse, error) {
 	c.mu.Lock()
 
 	c.Send(cmd)
-	data := c.getData("meta")
+	data, err := c.getData("meta")
+	if err != nil {
+		return data.(*ZPMeta.MetaCmdResponse), err
+	}
+
 	c.mu.Unlock()
 
 	return data.(*ZPMeta.MetaCmdResponse), nil
@@ -173,7 +193,11 @@ func (c *Connection) CreateTable(name string, num int32) (*ZPMeta.MetaCmdRespons
 	c.mu.Lock()
 
 	c.Send(cmd)
-	data := c.getData("meta")
+	data, err := c.getData("meta")
+	if err != nil {
+		return data.(*ZPMeta.MetaCmdResponse), err
+	}
+
 	c.mu.Unlock()
 
 	return data.(*ZPMeta.MetaCmdResponse), nil
@@ -199,7 +223,11 @@ func (c *Connection) InfoStats(tablename string) (*client.CmdResponse, error) {
 		logger.Info("marshal proto error", err)
 	}
 	c.Send(cmd)
-	data := c.getData("node")
+	data, err := c.getData("node")
+	if err != nil {
+		return data.(*client.CmdResponse), err
+	}
+
 	c.mu.Unlock()
 	return data.(*client.CmdResponse), nil
 }
@@ -229,6 +257,32 @@ func (c *Connection) MakeCmdInfoStats(tablename string) ([]byte, error) {
 	return proto.Marshal(raw_cmd)
 }
 
+func (c *Connection) InfoCapacity(tablename string) (*client.CmdResponse, error) {
+	c.mu.Lock()
+	cmd, err := c.MakeCmdInfoCapacity(tablename)
+	if err != nil {
+		logger.Info("marshal proto error", err)
+	}
+	c.Send(cmd)
+	data, err := c.getData("node")
+	if err != nil {
+		return data.(*client.CmdResponse), err
+	}
+
+	c.mu.Unlock()
+	return data.(*client.CmdResponse), nil
+}
+
+func (c *Connection) MakeCmdInfoCapacity(tablename string) ([]byte, error) {
+	//logger.Info("tablename is:", tablename)
+	raw_cmd := &client.CmdRequest{
+		Type: client.Type_INFOCAPACITY.Enum(),
+		Info: &client.CmdRequest_Info{TableName: &tablename},
+	}
+
+	return proto.Marshal(raw_cmd)
+}
+
 /*
 func (c *Connection) Ping() bool {
 	c.Send(&PingPacket{})
@@ -250,7 +304,11 @@ func (c *Connection) Set(tablename string, key string, value []byte) (*client.Cm
 	c.mu.Lock()
 
 	c.Send(cmd)
-	data := c.getData("node")
+	data, err := c.getData("node")
+	if err != nil {
+		return data.(*client.CmdResponse), err
+	}
+
 	c.mu.Unlock()
 
 	return data.(*client.CmdResponse), nil
@@ -276,7 +334,11 @@ func (c *Connection) Get(tablename string, key string) (*client.CmdResponse, err
 	c.mu.Lock()
 
 	c.Send(cmd)
-	data := c.getData("node")
+	data, err := c.getData("node")
+	if err != nil {
+		return data.(*client.CmdResponse), err
+	}
+
 	c.mu.Unlock()
 
 	return data.(*client.CmdResponse), nil
@@ -301,7 +363,11 @@ func (c *Connection) Ping() (*ZPMeta.MetaCmdResponse, error) {
 	}
 	c.Send(cmd)
 	c.mu.Lock()
-	data := c.getData("meta")
+	data, err := c.getData("meta")
+	if err != nil {
+		return data.(*ZPMeta.MetaCmdResponse), err
+	}
+
 	c.mu.Unlock()
 	return data.(*ZPMeta.MetaCmdResponse), nil
 }
@@ -314,9 +380,9 @@ func (c *Connection) MakeCmdPing() ([]byte, error) {
 }
 
 //func (c *Connection) getData(tag string) *ZPMeta.MetaCmdResponse {
-func (c *Connection) getData(tag string) interface{} {
+func (c *Connection) getData(tag string) (interface{}, error) {
 	//TODO 这里可以加 retry
-	timeout := time.After(5 * time.Second)
+	timeout := time.After(1 * time.Second)
 	//	tick := time.Tick(500 * time.Millisecond)
 
 	for {
@@ -330,12 +396,12 @@ func (c *Connection) getData(tag string) interface{} {
 			if rawdata != nil {
 				newdata := c.ProtoUnserialize(rawdata, tag)
 				//close(c.RecvDone)
-				return newdata
+				return newdata, nil
 			}
 		case <-timeout:
-			logger.Info("time out 5 second")
-
-			os.Exit(0)
+			logger.Info("time out 1 second")
+			nildata := c.ProtoUnserialize(nil, tag)
+			return nildata, errors.New("time out in 1 second")
 			/*
 				case <-time.After(5000 * time.Millisecond):
 					logger.Info("time out 5000ms")
@@ -345,4 +411,8 @@ func (c *Connection) getData(tag string) interface{} {
 			*/
 		}
 	}
+}
+
+func (c *Connection) NilStruct(tag string) {
+
 }

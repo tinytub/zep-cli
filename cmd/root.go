@@ -52,7 +52,6 @@ var (
 func Execute() {
 	//RootCmd.Flags().StringVar(&region, "region", "", "cluster region")
 
-	fmt.Println("test")
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(-1)
@@ -61,6 +60,7 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
+	fmt.Println("init")
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports Persistent Flags, which, if defined here,

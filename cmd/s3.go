@@ -276,47 +276,17 @@ func init() {
 
 	s3BenchBucket.Flags().StringVarP(&endpoint, "endpoint", "e", "", "s3 endpoint")
 	s3BenchBucket.Flags().IntVarP(&runs, "runs", "r", 3, "the number of times to run each test")
-	//	s3BenchBucket.Flags().StringVar(&region, "region", "", "s3 region")
-
-	//s3ListBucket.Flags().StringVar(&region, "region", "", "s3 region")
-
-	s3CreateBucket.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
-	//s3CreateBucket.Flags().StringVar(&region, "region", "", "s3 region")
-
-	s3DeleteBucket.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
-	//	s3DeleteBucket.Flags().StringVar(&region, "region", "", "s3 region")
-
-	s3SetOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
-	s3SetOBJ.Flags().StringVarP(&key, "key", "k", "monit", "which key")
-	s3SetOBJ.Flags().StringVarP(&value, "value", "v", "OK", "which value")
 	s3SetOBJ.Flags().StringVarP(&filename, "f", "f", "", "filename which you want upload")
-	//s3SetOBJ.Flags().StringVar(&region, "region", "", "s3 region")
-
-	s3GetOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
-	s3GetOBJ.Flags().StringVarP(&key, "key", "k", "monit", "which key")
 	s3GetOBJ.Flags().StringVarP(&output, "output", "o", "stdout", "filename which you want download file to save")
-	//s3GetOBJ.Flags().StringVar(&region, "region", "", "s3 region")
-
-	s3ListOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
-	//s3ListOBJ.Flags().StringVar(&region, "region", "", "s3 region")
-
-	s3DelOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
-	s3DelOBJ.Flags().StringVarP(&key, "key", "k", "monit", "which key")
-	//s3DelOBJ.Flags().StringVar(&region, "region", "", "s3 region")
-
-	s3HeadOBJ.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
-	s3HeadOBJ.Flags().StringVarP(&key, "key", "k", "monit", "which key")
-	//s3HeadOBJ.Flags().StringVar(&region, "region", "", "s3 region")
-
-	s3Test.Flags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
 	s3Test.Flags().StringVarP(&tekey, "key", "k", teKey, "which key")
-	s3Test.Flags().StringVarP(&value, "value", "v", "OK", "which value")
 	s3Test.Flags().StringVarP(&filename, "f", "f", "", "filename which you want upload")
 	s3Test.Flags().StringVarP(&output, "output", "o", "stdout", "filename which you want download file to save")
-	//s3Test.Flags().StringVar(&region, "region", "", "s3 region")
 	s3Test.Flags().IntVarP(&utime, "timeout", "t", 0, "test timeout")
 	s3Test.Flags().IntVarP(&con, "concurrency", "c", 1, "test concurrency")
 
+	s3Cmd.PersistentFlags().StringVarP(&bucket, "bucket", "b", "monitor", "bucket name")
+	s3Cmd.PersistentFlags().StringVarP(&key, "key", "k", "monit", "which key")
+	s3Cmd.PersistentFlags().StringVarP(&value, "value", "v", "OK", "which value")
 	s3Cmd.PersistentFlags().StringVar(&region, "region", "", "s3 region")
 	s3Cmd.AddCommand(s3BenchBucket)
 	s3Cmd.AddCommand(s3ListBucket)
@@ -328,7 +298,6 @@ func init() {
 	s3Cmd.AddCommand(s3CreateBucket)
 	s3Cmd.AddCommand(s3DeleteBucket)
 	s3Cmd.AddCommand(s3Test)
-	//s3Cmd.Flags().StringVar(&region, "region", "", "s3 region")
 
 	viper.Get("s3")
 

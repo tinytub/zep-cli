@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/binary"
+	"errors"
 	"io"
 	"net"
 	"strconv"
@@ -33,7 +34,8 @@ type MetaConnMap struct {
 */
 
 type Connection struct {
-	Conn *net.TCPConn
+	//Conn *net.TCPConn
+	Conn net.Conn
 	//	MetaCMD   *ZPMeta.MetaCmd
 	//	ClientCMD *client.CmdRequest
 	Data       chan []byte
@@ -103,7 +105,7 @@ func NewMultiMetaConn(addrs []string) *MetaConnMap {
 //./src/zp_table.cc:  int par_num = std::hash<std::string>()(key) % partitions_.size();
 
 //func NewConn(ads []string) *Connection {
-func NewConn(addrs []string) *Connection {
+func NewConn(addrs []string) (*Connection, error) {
 
 	//addrs := []string{"10.203.11.76:9221"}
 	c := &Connection{}
@@ -114,9 +116,9 @@ func NewConn(addrs []string) *Connection {
 			continue
 		}
 		go conn.Recv()
-		return conn
+		return conn, nil
 	}
-	return c
+	return c, errors.New("all bad conn")
 }
 
 func (c *Connection) newConn(addr string) (*Connection, error) {
@@ -128,7 +130,8 @@ func (c *Connection) newConn(addr string) (*Connection, error) {
 		logger.Info("tcp resolve err:", err)
 		return nil, err
 	}
-	conn, err := net.DialTCP("tcp", nil, tcpAddr)
+	//conn, err := net.DialTCP("tcp", nil, tcpAddr)
+	conn, err := net.DialTimeout("tcp", addr, 5000*time.Millisecond)
 	if err != nil {
 		logger.Info("tcp conn err:", err)
 		return nil, err
@@ -248,8 +251,8 @@ func (c *Connection) Recv() {
 			//					default:
 			//						logger.Info("waiting request or done", i)
 		case <-time.After(5000 * time.Millisecond):
-			logger.Info("waiting for request or done io  5 second")
-
+			logger.Info("waiting for request or done io in 5 second")
+			return
 			// 这里还应该在 case 一个 停止的 sigal, 或者看要不要设置超时.
 
 		}
