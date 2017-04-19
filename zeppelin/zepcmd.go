@@ -2,7 +2,6 @@ package zeppelin
 
 import (
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/tinytub/zep-cli/proto/ZPMeta"
@@ -24,7 +23,6 @@ func (c *Connection) PullTable(tablename string) (*ZPMeta.MetaCmdResponse, error
 	if err != nil {
 		return data.(*ZPMeta.MetaCmdResponse), err
 	}
-	fmt.Println(data)
 	c.mu.Unlock()
 	return data.(*ZPMeta.MetaCmdResponse), nil
 }
@@ -232,6 +230,7 @@ func (c *Connection) InfoStats(tablename string) (*client.CmdResponse, error) {
 	return data.(*client.CmdResponse), nil
 }
 
+/*
 func (c *Connection) TotalQPS(nodeconns map[string]*Connection, table string) int {
 	var totalQPS int
 	for _, nConn := range nodeconns {
@@ -246,6 +245,7 @@ func (c *Connection) TotalQPS(nodeconns map[string]*Connection, table string) in
 	return totalQPS
 
 }
+*/
 
 func (c *Connection) MakeCmdInfoStats(tablename string) ([]byte, error) {
 	logger.Info("tablename is:", tablename)
@@ -277,6 +277,32 @@ func (c *Connection) MakeCmdInfoCapacity(tablename string) ([]byte, error) {
 	//logger.Info("tablename is:", tablename)
 	raw_cmd := &client.CmdRequest{
 		Type: client.Type_INFOCAPACITY.Enum(),
+		Info: &client.CmdRequest_Info{TableName: &tablename},
+	}
+
+	return proto.Marshal(raw_cmd)
+}
+
+func (c *Connection) InfoPartition(tablename string) (*client.CmdResponse, error) {
+	c.mu.Lock()
+	cmd, err := c.MakeCmdInfoPartition(tablename)
+	if err != nil {
+		logger.Info("marshal proto error", err)
+	}
+	c.Send(cmd)
+	data, err := c.getData("node")
+	if err != nil {
+		return data.(*client.CmdResponse), err
+	}
+
+	c.mu.Unlock()
+	return data.(*client.CmdResponse), nil
+}
+
+func (c *Connection) MakeCmdInfoPartition(tablename string) ([]byte, error) {
+	//logger.Info("tablename is:", tablename)
+	raw_cmd := &client.CmdRequest{
+		Type: client.Type_INFOPARTITION.Enum(),
 		Info: &client.CmdRequest_Info{TableName: &tablename},
 	}
 

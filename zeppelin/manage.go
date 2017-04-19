@@ -13,10 +13,12 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"reflect"
 	"runtime"
 	"strconv"
 
 	"github.com/tinytub/zep-cli/proto/ZPMeta"
+	"github.com/tinytub/zep-cli/proto/client"
 )
 
 func ListNode(addrs []string) ([]*ZPMeta.NodeStatus, error) {
@@ -75,6 +77,26 @@ func ListTable(addrs []string) (*ZPMeta.TableName, error) {
 	tables := data.ListTable.Tables
 	conn.RecvDone <- true
 	return tables, nil
+}
+
+type PTable struct {
+	pull *ZPMeta.Table
+}
+
+func PullTable(tablename string, addrs []string) (PTable, error) {
+	var ptable PTable
+	Mconn, err := NewConn(addrs)
+	if err != nil {
+		return ptable, err
+	}
+
+	pullResp, err := Mconn.PullTable(tablename)
+	if err != nil {
+		return ptable, err
+	}
+	Mconn.RecvDone <- true
+	ptable.pull = pullResp.Pull.GetInfo()[0]
+	return ptable, nil
 }
 
 func CreateTable(name string, num int32, addrs []string) {
@@ -149,19 +171,22 @@ func Get(tablename string, key string, value string, addrs []string) {
 
 }
 
-func Space(tablename string, addrs []string) (int64, int64, error) {
+func (ptable *PTable) Space(tablename string, addrs []string) (int64, int64, error) {
 	// pull table ---> get partition master info state ---> calculate
-	Mconn, err := NewConn(addrs)
-	if err != nil {
-		return 0, 0, err
-	}
+	/*
+		Mconn, err := NewConn(addrs)
+		if err != nil {
+			return 0, 0, err
+		}
 
-	pullResp, err := Mconn.PullTable(tablename)
-	if err != nil {
-		return 0, 0, err
-	}
-	Mconn.RecvDone <- true
-	pull := pullResp.Pull.GetInfo()[0]
+		pullResp, err := Mconn.PullTable(tablename)
+		if err != nil {
+			return 0, 0, err
+		}
+		Mconn.RecvDone <- true
+		pull := pullResp.Pull.GetInfo()[0]
+	*/
+	pull := ptable.pull
 	//	var masters []string
 	var used int64 = 0
 	var remain int64 = 0
@@ -176,16 +201,16 @@ func Space(tablename string, addrs []string) (int64, int64, error) {
 	//通过 addjob 不太好搞...只能闭包构造 jobs 管道
 	go func() {
 		//var pmaddrs map[string]string
-		pmaddrs := make(map[string]string)
+		pmaddrs := make(map[string]int)
 
 		for _, partition := range pull.GetPartitions() {
 			ip := partition.Master.GetIp()
 			port := strconv.Itoa(int(partition.Master.GetPort()))
-			pmaddrs[ip] = port
+			pmaddrs[ip+":"+port] = 0
 			//jobs <- job{addr, results}
 		}
-		for ip, port := range pmaddrs {
-			jobs <- &JobInfoCap{ip + ":" + port, results}
+		for addr, _ := range pmaddrs {
+			jobs <- &JobInfoCap{addr, results}
 		}
 		close(jobs)
 	}()
@@ -202,18 +227,21 @@ func Space(tablename string, addrs []string) (int64, int64, error) {
 
 }
 
-func Stats(tablename string, addrs []string) (int64, int32, error) {
-	Mconn, err := NewConn(addrs)
-	if err != nil {
-		return 0, 0, err
-	}
+func (ptable *PTable) Stats(tablename string, addrs []string) (int64, int32, error) {
+	/*
+		Mconn, err := NewConn(addrs)
+		if err != nil {
+			return 0, 0, err
+		}
 
-	pullResp, err := Mconn.PullTable(tablename)
-	if err != nil {
-		return 0, 0, err
-	}
-	Mconn.RecvDone <- true
-	pull := pullResp.Pull.GetInfo()[0]
+		pullResp, err := Mconn.PullTable(tablename)
+		if err != nil {
+			return 0, 0, err
+		}
+		Mconn.RecvDone <- true
+		pull := pullResp.Pull.GetInfo()[0]
+	*/
+	pull := ptable.pull
 
 	//	var masters []string
 
@@ -227,18 +255,17 @@ func Stats(tablename string, addrs []string) (int64, int32, error) {
 	dones := make(chan struct{}, worker)
 
 	go func() {
-		pmaddrs := make(map[string]string)
+		pmaddrs := make(map[string]int)
 		for _, partition := range pull.GetPartitions() {
 			ip := partition.Master.GetIp()
 			port := strconv.Itoa(int(partition.Master.GetPort()))
-			fmt.Println(ip)
-			fmt.Println(port)
+			pmaddrs[ip+":"+port] = 0
 
-			pmaddrs[ip] = port
+			//pmaddrs[ip] = port
 			//jobs <- job{addr, results}
 		}
-		for ip, port := range pmaddrs {
-			jobs <- &JobInfoStats{ip + ":" + port, results}
+		for addr, _ := range pmaddrs {
+			jobs <- &JobInfoStats{addr, results}
 		}
 		close(jobs)
 	}()
@@ -252,7 +279,91 @@ func Stats(tablename string, addrs []string) (int64, int32, error) {
 		qps += d.QPS
 	}
 	return query, qps, nil
+}
 
+func (ptable *PTable) Offset(tablename string, addrs []string) (map[int32]*client.SyncOffset, error) {
+	unsyncoffset := make(map[int32]*client.SyncOffset)
+	/*
+
+		Mconn, err := NewConn(addrs)
+		if err != nil {
+			return unsyncoffset, err
+		}
+
+		pullResp, err := Mconn.PullTable(tablename)
+		if err != nil {
+			return unsyncoffset, err
+		}
+		Mconn.RecvDone <- true
+		pull := pullResp.Pull.GetInfo()[0]
+	*/
+	pull := ptable.pull
+
+	// 获取 各 master 的 offset, 再获取各 slave 的 offset,然后对 offset 进行比对
+
+	//	var masters []string
+
+	worker := runtime.NumCPU()
+	//fmt.Println(worker)
+	jobsMaster := make(chan Jobber, worker)
+	resultsMaster := make(chan Result, len(pull.GetPartitions()))
+	donesMaster := make(chan struct{}, worker)
+
+	//add job
+	go func() {
+		pmaddrs := make(map[string]int)
+		for _, partition := range pull.GetPartitions() {
+			mip := partition.Master.GetIp()
+			mport := strconv.Itoa(int(partition.Master.GetPort()))
+			//ip + port 这种 map 方式不合理
+			pmaddrs[mip+":"+mport] = 0
+			for _, slave := range partition.Slaves {
+				sip := slave.GetIp()
+				sport := strconv.Itoa(int(slave.GetPort()))
+
+				pmaddrs[sip+":"+sport] = 0
+				//jobs <- job{addr, results}
+			}
+			//jobs <- job{addr, results}
+		}
+		for addr, _ := range pmaddrs {
+			jobsMaster <- &JobOffset{addr, resultsMaster}
+		}
+		close(jobsMaster)
+	}()
+
+	//do master job
+	for i := 0; i < worker; i++ {
+		go doJob(jobsMaster, donesMaster, tablename)
+	}
+
+	dataMaster := awaitForCloseResult(donesMaster, resultsMaster, worker)
+	alloffsets := make(map[string][]*client.SyncOffset)
+
+	for _, d := range dataMaster {
+		alloffsets[d.addr] = d.Offsets
+	}
+
+	for _, partition := range pull.GetPartitions() {
+		mIp := partition.Master.GetIp()
+		mPort := strconv.Itoa(int(partition.Master.GetPort()))
+		maddr := mIp + ":" + mPort
+		masteroffset := alloffsets[maddr][partition.GetId()]
+		for _, slave := range partition.Slaves {
+			sIp := slave.GetIp()
+			sPort := strconv.Itoa(int(slave.GetPort()))
+			saddr := sIp + ":" + sPort
+			slaveoffset := alloffsets[saddr][partition.GetId()]
+			if !reflect.DeepEqual(masteroffset, slaveoffset) {
+				unsyncoffset[partition.GetId()] = slaveoffset
+			} else {
+				unsyncoffset[partition.GetId()] = nil
+			}
+		}
+
+	}
+	//fmt.Println(dataSlave)
+	return unsyncoffset, nil
 }
 
 // 多 slave 时通过 goroutine 搞
@@ -280,15 +391,24 @@ type JobInfoCap struct {
 	addr   string
 	result chan<- Result
 }
+
 type JobInfoStats struct {
 	addr   string
 	result chan<- Result
 }
+
+type JobOffset struct {
+	addr   string
+	result chan<- Result
+}
+
 type Result struct {
-	Used   int64
-	Remain int64
-	QPS    int32
-	Query  int64
+	addr    string
+	Used    int64
+	Remain  int64
+	QPS     int32
+	Query   int64
+	Offsets []*client.SyncOffset
 }
 
 func (job *JobInfoCap) Do(tablename string) {
@@ -336,6 +456,32 @@ func (job *JobInfoStats) Do(tablename string) {
 	job.result <- Result{Query: query, QPS: qps}
 }
 
+func (job *JobOffset) Do(tablename string) {
+	//addr := partition.Master.GetIp() + ":" + strconv.Itoa(int(partition.Master.GetPort()))
+
+	Nconn, errN := NewConn([]string{job.addr})
+	if errN != nil {
+		return
+	}
+
+	inforesp, err := Nconn.InfoPartition(tablename)
+	Nconn.RecvDone <- true
+	if err != nil {
+		return
+	}
+	infoPart := inforesp.GetInfoPartition()
+	var result Result
+	//	result.Offsets = make(map[string][]*client.SyncOffset)
+	for _, i := range infoPart {
+		//fmt.Println("offset:", i.GetSyncOffset())
+		result.Offsets = i.GetSyncOffset()
+		result.addr = job.addr
+		result.Query = 0
+		result.QPS = 0
+	}
+
+	job.result <- result
+}
 func awaitForCloseResult(dones <-chan struct{}, results chan Result, worker int) []Result {
 	working := worker
 	done := false

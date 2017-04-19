@@ -47,6 +47,7 @@ type ZepClusterCollector struct {
 	TableRemain *prometheus.GaugeVec
 	TableQuery  *prometheus.GaugeVec
 	TableQPS    *prometheus.GaugeVec
+	TableOffset *prometheus.GaugeVec
 }
 
 // NewClusterUsageCollector creates and returns the reference to ClusterUsageCollector
@@ -114,6 +115,14 @@ func NewZepClusterCollector(addrs []string) *ZepClusterCollector {
 			},
 			[]string{"table"},
 		),
+		TableOffset: prometheus.NewGaugeVec(
+			prometheus.GaugeOpts{
+				Namespace: namespace,
+				Name:      "TableOffset",
+				Help:      "zeppelin Table Offset",
+			},
+			[]string{"table", "partition"},
+		),
 	}
 }
 
@@ -127,6 +136,7 @@ func (c *ZepClusterCollector) collectorList() []prometheus.Collector {
 		c.TableRemain,
 		c.TableQuery,
 		c.TableQPS,
+		c.TableOffset,
 	}
 }
 
@@ -155,8 +165,14 @@ func (c *ZepClusterCollector) collect() error {
 	fmt.Println(tablelist)
 
 	for _, tablename := range tablelist.Name {
-		used, remain, _ := zeppelin.Space(tablename, c.addrs)
-		query, qps, _ := zeppelin.Stats(tablename, c.addrs)
+		ptable, _ := zeppelin.PullTable(tablename, c.addrs)
+		used, remain, _ := ptable.Space(tablename, c.addrs)
+		query, qps, _ := ptable.Stats(tablename, c.addrs)
+		Offset, _ := ptable.Offset(tablename, c.addrs)
+		for pid, offset := range Offset {
+			c.TableOffset.WithLabelValues(tablename, strconv.Itoa(int(pid))).Set(float64(offset.GetFilenum()))
+
+		}
 		c.TableUsed.WithLabelValues(tablename).Set(float64(used))
 		c.TableRemain.WithLabelValues(tablename).Set(float64(remain))
 		c.TableQuery.WithLabelValues(tablename).Set(float64(query))

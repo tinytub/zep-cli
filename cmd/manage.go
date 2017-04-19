@@ -141,7 +141,8 @@ var cmdSpace = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		meta := checkZepRegionNGetMeta(region)
 
-		used, remain, err := zeppelin.Space(tname, meta)
+		ptable, err := zeppelin.PullTable(tname, meta)
+		used, remain, err := ptable.Space(tname, meta)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -156,13 +157,34 @@ var cmdStats = &cobra.Command{
 	Short: "QPS and total Query for specified table",
 	Run: func(cmd *cobra.Command, args []string) {
 		meta := checkZepRegionNGetMeta(region)
+		ptable, err := zeppelin.PullTable(tname, meta)
 
-		query, qps, err := zeppelin.Stats(tname, meta)
+		query, qps, err := ptable.Stats(tname, meta)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 		fmt.Printf("Table: %s, Query: %d, QPS: %d \n", tname, query, qps)
+
+	},
+}
+var cmdOffset = &cobra.Command{
+	Use:   "offset",
+	Short: "offset specified table",
+	Run: func(cmd *cobra.Command, args []string) {
+		meta := checkZepRegionNGetMeta(region)
+
+		ptable, err := zeppelin.PullTable(tname, meta)
+		unsyncoffset, err := ptable.Offset(tname, meta)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		for pid, offset := range unsyncoffset {
+			if offset != nil {
+				fmt.Printf("unsynced partition id: %d, offset: %s", pid, offset)
+			}
+		}
 
 	},
 }
@@ -202,6 +224,9 @@ func init() {
 
 	cmdStats.Flags().StringVarP(&tname, "name", "t", "", "table name")
 	manageCmd.AddCommand(cmdStats)
+
+	cmdOffset.Flags().StringVarP(&tname, "name", "t", "", "table name")
+	manageCmd.AddCommand(cmdOffset)
 
 	manageCmd.PersistentFlags().StringVar(&region, "region", "", "zep region")
 
