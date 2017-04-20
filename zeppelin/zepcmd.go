@@ -20,6 +20,9 @@ func (c *Connection) PullTable(tablename string) (*ZPMeta.MetaCmdResponse, error
 	//	c.Send(cmd)
 	c.Send(cmd)
 	data, err := c.getData("meta")
+	if data.(*ZPMeta.MetaCmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*ZPMeta.MetaCmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*ZPMeta.MetaCmdResponse), err
 	}
@@ -65,6 +68,9 @@ func (c *Connection) PullNode(node string, port int32) (*ZPMeta.MetaCmdResponse,
 	//	c.Send(cmd)
 	c.Send(cmd)
 	data, err := c.getData("meta")
+	if data.(*ZPMeta.MetaCmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*ZPMeta.MetaCmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*ZPMeta.MetaCmdResponse), err
 	}
@@ -105,6 +111,9 @@ func (c *Connection) ListTable() (*ZPMeta.MetaCmdResponse, error) {
 
 	c.Send(cmd)
 	data, err := c.getData("meta")
+	if data.(*ZPMeta.MetaCmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*ZPMeta.MetaCmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*ZPMeta.MetaCmdResponse), err
 	}
@@ -137,6 +146,9 @@ func (c *Connection) ListNode() (*ZPMeta.MetaCmdResponse, error) {
 	c.mu.Lock()
 
 	data, err := c.getData("meta")
+	if data.(*ZPMeta.MetaCmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*ZPMeta.MetaCmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*ZPMeta.MetaCmdResponse), err
 	}
@@ -165,6 +177,9 @@ func (c *Connection) ListMeta() (*ZPMeta.MetaCmdResponse, error) {
 
 	c.Send(cmd)
 	data, err := c.getData("meta")
+	if data.(*ZPMeta.MetaCmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*ZPMeta.MetaCmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*ZPMeta.MetaCmdResponse), err
 	}
@@ -192,6 +207,9 @@ func (c *Connection) CreateTable(name string, num int32) (*ZPMeta.MetaCmdRespons
 
 	c.Send(cmd)
 	data, err := c.getData("meta")
+	if data.(*ZPMeta.MetaCmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*ZPMeta.MetaCmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*ZPMeta.MetaCmdResponse), err
 	}
@@ -222,6 +240,9 @@ func (c *Connection) InfoStats(tablename string) (*client.CmdResponse, error) {
 	}
 	c.Send(cmd)
 	data, err := c.getData("node")
+	if data.(*client.CmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*client.CmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*client.CmdResponse), err
 	}
@@ -265,6 +286,9 @@ func (c *Connection) InfoCapacity(tablename string) (*client.CmdResponse, error)
 	}
 	c.Send(cmd)
 	data, err := c.getData("node")
+	if data.(*client.CmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*client.CmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*client.CmdResponse), err
 	}
@@ -291,6 +315,9 @@ func (c *Connection) InfoPartition(tablename string) (*client.CmdResponse, error
 	}
 	c.Send(cmd)
 	data, err := c.getData("node")
+	if data.(*client.CmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*client.CmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*client.CmdResponse), err
 	}
@@ -331,6 +358,9 @@ func (c *Connection) Set(tablename string, key string, value []byte) (*client.Cm
 
 	c.Send(cmd)
 	data, err := c.getData("node")
+	if data.(*client.CmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*client.CmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*client.CmdResponse), err
 	}
@@ -361,6 +391,9 @@ func (c *Connection) Get(tablename string, key string) (*client.CmdResponse, err
 
 	c.Send(cmd)
 	data, err := c.getData("node")
+	if data.(*client.CmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*client.CmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*client.CmdResponse), err
 	}
@@ -390,6 +423,9 @@ func (c *Connection) Ping() (*ZPMeta.MetaCmdResponse, error) {
 	c.Send(cmd)
 	c.mu.Lock()
 	data, err := c.getData("meta")
+	if data.(*client.CmdResponse).GetCode() != 0 {
+		err = errors.New(data.(*client.CmdResponse).GetMsg())
+	}
 	if err != nil {
 		return data.(*ZPMeta.MetaCmdResponse), err
 	}

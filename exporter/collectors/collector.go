@@ -121,7 +121,7 @@ func NewZepClusterCollector(addrs []string) *ZepClusterCollector {
 				Name:      "TableOffset",
 				Help:      "zeppelin Table Offset",
 			},
-			[]string{"table", "partition"},
+			[]string{"table", "partition", "addr"},
 		),
 	}
 }
@@ -169,9 +169,11 @@ func (c *ZepClusterCollector) collect() error {
 		used, remain, _ := ptable.Space(tablename, c.addrs)
 		query, qps, _ := ptable.Stats(tablename, c.addrs)
 		Offset, _ := ptable.Offset(tablename, c.addrs)
-		for pid, offset := range Offset {
-			c.TableOffset.WithLabelValues(tablename, strconv.Itoa(int(pid))).Set(float64(offset.GetFilenum()))
+		for pid, slave := range Offset {
+			for _, offset := range slave {
 
+				c.TableOffset.WithLabelValues(tablename, strconv.Itoa(int(pid)), offset.Addr).Set(float64(offset.Offset))
+			}
 		}
 		c.TableUsed.WithLabelValues(tablename).Set(float64(used))
 		c.TableRemain.WithLabelValues(tablename).Set(float64(remain))

@@ -281,8 +281,16 @@ func (ptable *PTable) Stats(tablename string, addrs []string) (int64, int32, err
 	return query, qps, nil
 }
 
-func (ptable *PTable) Offset(tablename string, addrs []string) (map[int32]*client.SyncOffset, error) {
-	unsyncoffset := make(map[int32]*client.SyncOffset)
+type Unsyncoffset struct {
+	Addr   string
+	Offset uint64
+	//partition int32
+}
+
+func (ptable *PTable) Offset(tablename string, addrs []string) (map[int32][]*Unsyncoffset, error) {
+	unsyncoffset := make(map[int32][]*Unsyncoffset)
+
+	//var unsyncoffset Unsyncoffset
 	/*
 
 		Mconn, err := NewConn(addrs)
@@ -348,16 +356,21 @@ func (ptable *PTable) Offset(tablename string, addrs []string) (map[int32]*clien
 		mIp := partition.Master.GetIp()
 		mPort := strconv.Itoa(int(partition.Master.GetPort()))
 		maddr := mIp + ":" + mPort
+		//fmt.Println(alloffsets)
+		fmt.Println("maddr:", maddr, tablename)
 		masteroffset := alloffsets[maddr][partition.GetId()]
+		unsyncoffset[partition.GetId()] = make([]*Unsyncoffset, len(partition.GetSlaves()))
 		for _, slave := range partition.Slaves {
 			sIp := slave.GetIp()
 			sPort := strconv.Itoa(int(slave.GetPort()))
 			saddr := sIp + ":" + sPort
 			slaveoffset := alloffsets[saddr][partition.GetId()]
 			if !reflect.DeepEqual(masteroffset, slaveoffset) {
-				unsyncoffset[partition.GetId()] = slaveoffset
+
+				offset := ((int64(masteroffset.GetFilenum()) - int64(slaveoffset.GetFilenum())) + (masteroffset.GetOffset() - slaveoffset.GetOffset()))
+				unsyncoffset[partition.GetId()] = append(unsyncoffset[partition.GetId()], &Unsyncoffset{Addr: saddr, Offset: uint64(offset)})
 			} else {
-				unsyncoffset[partition.GetId()] = nil
+				unsyncoffset[partition.GetId()] = append(unsyncoffset[partition.GetId()], &Unsyncoffset{Addr: saddr, Offset: 0})
 			}
 		}
 
