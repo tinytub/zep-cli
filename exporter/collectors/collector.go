@@ -15,8 +15,8 @@
 package collectors
 
 import (
-	"fmt"
 	"strconv"
+	"sync"
 
 	logging "github.com/op/go-logging"
 	//"github.com/prometheus/common/log"
@@ -48,6 +48,7 @@ type ZepClusterCollector struct {
 	TableQuery  *prometheus.GaugeVec
 	TableQPS    *prometheus.GaugeVec
 	TableOffset *prometheus.GaugeVec
+	Epoch       *prometheus.GaugeVec
 }
 
 // NewClusterUsageCollector creates and returns the reference to ClusterUsageCollector
@@ -123,6 +124,14 @@ func NewZepClusterCollector(addrs []string) *ZepClusterCollector {
 			},
 			[]string{"table", "partition", "addr"},
 		),
+		Epoch: prometheus.NewGaugeVec(
+			prometheus.GaugeOpts{
+				Namespace: namespace,
+				Name:      "Epoch",
+				Help:      "zeppelin epoch",
+			},
+			[]string{"type", "table", "addr"},
+		),
 	}
 }
 
@@ -137,49 +146,82 @@ func (c *ZepClusterCollector) collectorList() []prometheus.Collector {
 		c.TableQuery,
 		c.TableQPS,
 		c.TableOffset,
+		c.Epoch,
 	}
 }
 
 func (c *ZepClusterCollector) collect() error {
+	var wg sync.WaitGroup
+	go func() {
+		rawNodes, _ := zeppelin.ListNode(c.addrs)
+		nodes := len(rawNodes)
+		c.NodeCount.Set(float64(nodes))
 
-	rawNodes, _ := zeppelin.ListNode(c.addrs)
-	nodes := len(rawNodes)
-	c.NodeCount.Set(float64(nodes))
-
-	upnodes := 0
-	for _, node := range rawNodes {
-		if node.GetStatus() == 0 {
-			c.NodeUp.WithLabelValues(node.Node.GetIp(), strconv.Itoa(int(node.Node.GetPort()))).Set(float64(node.GetStatus()))
-			upnodes += 1
-		} else {
-			c.NodeUp.WithLabelValues(node.Node.GetIp(), strconv.Itoa(int(node.Node.GetPort()))).Set(float64(node.GetStatus()))
-		}
-	}
-	c.UpNodeCount.Set(float64(upnodes))
-
-	rawMetas, _ := zeppelin.ListMeta(c.addrs)
-	metas := len(rawMetas.Followers) + 1
-	c.MetaCount.Set(float64(metas))
-	// listable --> space
-	tablelist, _ := zeppelin.ListTable(c.addrs)
-	fmt.Println(tablelist)
-
-	for _, tablename := range tablelist.Name {
-		ptable, _ := zeppelin.PullTable(tablename, c.addrs)
-		used, remain, _ := ptable.Space(tablename, c.addrs)
-		query, qps, _ := ptable.Stats(tablename, c.addrs)
-		Offset, _ := ptable.Offset(tablename, c.addrs)
-		for pid, slave := range Offset {
-			for _, offset := range slave {
-
-				c.TableOffset.WithLabelValues(tablename, strconv.Itoa(int(pid)), offset.Addr).Set(float64(offset.Offset))
+		upnodes := 0
+		for _, node := range rawNodes {
+			if node.GetStatus() == 0 {
+				c.NodeUp.WithLabelValues(node.Node.GetIp(), strconv.Itoa(int(node.Node.GetPort()))).Set(float64(node.GetStatus()))
+				upnodes += 1
+			} else {
+				c.NodeUp.WithLabelValues(node.Node.GetIp(), strconv.Itoa(int(node.Node.GetPort()))).Set(float64(node.GetStatus()))
 			}
 		}
-		c.TableUsed.WithLabelValues(tablename).Set(float64(used))
-		c.TableRemain.WithLabelValues(tablename).Set(float64(remain))
-		c.TableQuery.WithLabelValues(tablename).Set(float64(query))
-		c.TableQPS.WithLabelValues(tablename).Set(float64(qps))
+		c.UpNodeCount.Set(float64(upnodes))
+	}()
+
+	go func() {
+		wg.Add(1)
+		rawMetas, _ := zeppelin.ListMeta(c.addrs)
+		metas := len(rawMetas.Followers) + 1
+		c.MetaCount.Set(float64(metas))
+		wg.Done()
+	}()
+
+	// listable --> space
+	tablelist, _ := zeppelin.ListTable(c.addrs)
+
+	for _, tablename := range tablelist.Name {
+		go func(tablename string) {
+			ptable, _ := zeppelin.PullTable(tablename, c.addrs)
+			wg.Add(1)
+			used, remain, _ := ptable.Space(tablename, c.addrs)
+			c.TableUsed.WithLabelValues(tablename).Set(float64(used))
+			c.TableRemain.WithLabelValues(tablename).Set(float64(remain))
+			wg.Done()
+		}(tablename)
+		go func() {
+			ptable, _ := zeppelin.PullTable(tablename, c.addrs)
+			tableEpoch := ptable.TableEpoch
+			c.Epoch.WithLabelValues("table", tablename, "").Set(float64(tableEpoch))
+			wg.Add(1)
+			nodeEpoch, _ := ptable.Server(c.addrs)
+			for _, e := range nodeEpoch {
+				c.Epoch.WithLabelValues("node", "", e.Addr).Set(float64(e.Epoch))
+			}
+			wg.Done()
+		}()
+		go func(tablename string) {
+			ptable, _ := zeppelin.PullTable(tablename, c.addrs)
+			wg.Add(1)
+			query, qps, _ := ptable.Stats(tablename, c.addrs)
+			c.TableQuery.WithLabelValues(tablename).Set(float64(query))
+			c.TableQPS.WithLabelValues(tablename).Set(float64(qps))
+			wg.Done()
+		}(tablename)
+
+		go func(tablename string) {
+			ptable, _ := zeppelin.PullTable(tablename, c.addrs)
+			wg.Add(1)
+			Offset, _ := ptable.Offset(tablename, c.addrs)
+			for pid, slave := range Offset {
+				for _, offset := range slave {
+					c.TableOffset.WithLabelValues(tablename, strconv.Itoa(int(pid)), offset.Addr).Set(offset.Offset)
+				}
+			}
+			wg.Done()
+		}(tablename)
 	}
+	wg.Wait()
 
 	return nil
 }

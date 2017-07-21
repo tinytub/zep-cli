@@ -43,27 +43,6 @@ var _ prometheus.Collector = &ZepExporter{}
 // it to the list of collectors.
 func NewZepExporter(addrs []string, hostType string) *ZepExporter {
 	var exporter *ZepExporter
-	/*
-		switch hostType {
-		case "Zep":
-			exporter = &ZepExporter{
-				collectors: []prometheus.Collector{
-					collectors.NewClusterUsageCollector(conn),
-					collectors.NewPoolUsageCollector(conn),
-					collectors.NewClusterHealthCollector(conn),
-					collectors.NewMonitorCollector(conn),
-					collectors.NewOSDCollector(conn),
-				},
-			}
-		case "meta":
-			exporter = &ZepExporter{
-
-				collectors: []prometheus.Collector{
-					collectors.NewClientSocketUsageCollector(conn),
-				},
-			}
-		}
-	*/
 	exporter = &ZepExporter{
 		collectors: []prometheus.Collector{
 			collectors.NewZepClusterCollector(addrs),

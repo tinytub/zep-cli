@@ -80,7 +80,9 @@ func ListTable(addrs []string) (*ZPMeta.TableName, error) {
 }
 
 type PTable struct {
-	pull *ZPMeta.Table
+	pull       *ZPMeta.Table
+	TableEpoch int32
+	nodelist   []*ZPMeta.NodeStatus
 }
 
 func PullTable(tablename string, addrs []string) (PTable, error) {
@@ -91,11 +93,17 @@ func PullTable(tablename string, addrs []string) (PTable, error) {
 	}
 
 	pullResp, err := Mconn.PullTable(tablename)
+	Mconn.RecvDone <- true
+	if len(pullResp.Pull.GetInfo()) != 0 {
+		ptable.pull = pullResp.Pull.GetInfo()[0]
+		ptable.TableEpoch = pullResp.Pull.GetVersion()
+	}
+	ptable.nodelist, err = ListNode(addrs)
+
 	if err != nil {
 		return ptable, err
 	}
-	Mconn.RecvDone <- true
-	ptable.pull = pullResp.Pull.GetInfo()[0]
+
 	return ptable, nil
 }
 
@@ -283,7 +291,7 @@ func (ptable *PTable) Stats(tablename string, addrs []string) (int64, int32, err
 
 type Unsyncoffset struct {
 	Addr   string
-	Offset uint64
+	Offset float64
 	//partition int32
 }
 
@@ -325,11 +333,16 @@ func (ptable *PTable) Offset(tablename string, addrs []string) (map[int32][]*Uns
 			mport := strconv.Itoa(int(partition.Master.GetPort()))
 			//ip + port 这种 map 方式不合理
 			pmaddrs[mip+":"+mport] = 0
-			for _, slave := range partition.Slaves {
+			for _, slave := range partition.GetSlaves() {
+
 				sip := slave.GetIp()
 				sport := strconv.Itoa(int(slave.GetPort()))
+				for _, node := range ptable.nodelist {
+					if node.GetStatus() == 0 && node.Node.GetIp() == sip && node.Node.GetPort() == slave.GetPort() {
+						pmaddrs[sip+":"+sport] = 0
 
-				pmaddrs[sip+":"+sport] = 0
+					}
+				}
 				//jobs <- job{addr, results}
 			}
 			//jobs <- job{addr, results}
@@ -357,28 +370,116 @@ func (ptable *PTable) Offset(tablename string, addrs []string) (map[int32][]*Uns
 		mPort := strconv.Itoa(int(partition.Master.GetPort()))
 		maddr := mIp + ":" + mPort
 		//fmt.Println(alloffsets)
-		fmt.Println("maddr:", maddr, tablename)
-		masteroffset := alloffsets[maddr][partition.GetId()]
-		unsyncoffset[partition.GetId()] = make([]*Unsyncoffset, len(partition.GetSlaves()))
-		for _, slave := range partition.Slaves {
-			sIp := slave.GetIp()
-			sPort := strconv.Itoa(int(slave.GetPort()))
-			saddr := sIp + ":" + sPort
-			slaveoffset := alloffsets[saddr][partition.GetId()]
-			if !reflect.DeepEqual(masteroffset, slaveoffset) {
 
-				offset := ((int64(masteroffset.GetFilenum()) - int64(slaveoffset.GetFilenum())) + (masteroffset.GetOffset() - slaveoffset.GetOffset()))
-				unsyncoffset[partition.GetId()] = append(unsyncoffset[partition.GetId()], &Unsyncoffset{Addr: saddr, Offset: uint64(offset)})
-			} else {
-				unsyncoffset[partition.GetId()] = append(unsyncoffset[partition.GetId()], &Unsyncoffset{Addr: saddr, Offset: 0})
+		if v, ok := alloffsets[maddr]; ok && len(partition.Slaves) > 0 {
+			masteroffset := v[partition.GetId()]
+			//unsyncoffset[partition.GetId()] = make([]*Unsyncoffset, len(partition.GetSlaves()))
+			for _, slave := range partition.GetSlaves() {
+
+				for _, node := range ptable.nodelist {
+					if node.GetStatus() == 0 && node.Node.GetIp() == slave.GetIp() && node.Node.GetPort() == slave.GetPort() {
+						//logger.Info("slave ip: ", slave.GetIp())
+						sIp := slave.GetIp()
+						// out of range ?
+						//logger.Info("slave port: ", slave.GetPort())
+						sPort := strconv.Itoa(int(slave.GetPort()))
+						saddr := sIp + ":" + sPort
+						//logger.Info("slave addr: ", saddr)
+						slaveParts := alloffsets[saddr]
+						if len(slaveParts) == 0 {
+							continue
+						}
+						slaveoffset := slaveParts[partition.GetId()]
+						if !reflect.DeepEqual(masteroffset, slaveoffset) {
+							offset := (float64(masteroffset.GetFilenum()) - float64(slaveoffset.GetFilenum()))
+
+							if offset == 0 {
+								offset = float64((masteroffset.GetOffset() - slaveoffset.GetOffset())) / 1000000000
+							}
+							//logger.Infof("tablename:%s, masterFileNum: %d, slaveFileNum: %d, masterOffset: %d, slaveOffset: %d, offsetDiff: %f\n", tablename, masteroffset.GetFilenum(), slaveoffset.GetFilenum(), masteroffset.GetOffset(), slaveoffset.GetOffset(), offset)
+							unsyncoffset[partition.GetId()] = append(unsyncoffset[partition.GetId()], &Unsyncoffset{Addr: saddr, Offset: offset})
+						} else {
+							unsyncoffset[partition.GetId()] = append(unsyncoffset[partition.GetId()], &Unsyncoffset{Addr: saddr, Offset: 0})
+
+						}
+
+					}
+				}
+				/*
+					logger.Info("slave ip: ", slave.GetIp())
+					sIp := slave.GetIp()
+					// out of range ?
+					logger.Info("slave port: ", slave.GetPort())
+					sPort := strconv.Itoa(int(slave.GetPort()))
+					saddr := sIp + ":" + sPort
+					logger.Info("slave addr: ", saddr)
+					slaveoffset := alloffsets[saddr][partition.GetId()]
+					if !reflect.DeepEqual(masteroffset, slaveoffset) {
+						offset := (float64(masteroffset.GetFilenum()) - float64(slaveoffset.GetFilenum()))
+
+						if offset == 0 {
+							offset = float64((masteroffset.GetOffset() - slaveoffset.GetOffset())) / 1000000000
+						}
+						logger.Infof("tablename:%s, masterFileNum: %d, slaveFileNum: %d, masterOffset: %d, slaveOffset: %d, offsetDiff: %f\n", tablename, masteroffset.GetFilenum(), slaveoffset.GetFilenum(), masteroffset.GetOffset(), slaveoffset.GetOffset(), offset)
+						unsyncoffset[partition.GetId()] = append(unsyncoffset[partition.GetId()], &Unsyncoffset{Addr: saddr, Offset: offset})
+					} else {
+						unsyncoffset[partition.GetId()] = append(unsyncoffset[partition.GetId()], &Unsyncoffset{Addr: saddr, Offset: 0})
+
+					}
+				*/
 			}
 		}
 
 	}
+	//	fmt.Println(unsyncoffset)
 	//fmt.Println(dataSlave)
 	return unsyncoffset, nil
 }
 
+type nodeEpoch struct {
+	Addr  string
+	Epoch int64
+}
+
+func (ptable *PTable) Server(addrs []string) ([]*nodeEpoch, error) {
+	pull := ptable.pull
+
+	//	var masters []string
+
+	worker := runtime.NumCPU()
+	//fmt.Println(worker)
+	jobs := make(chan WithNothingJobber, worker)
+	results := make(chan Result, len(pull.GetPartitions()))
+	dones := make(chan struct{}, worker)
+
+	go func() {
+		pmaddrs := make(map[string]int)
+		for _, partition := range pull.GetPartitions() {
+			ip := partition.Master.GetIp()
+			port := strconv.Itoa(int(partition.Master.GetPort()))
+			pmaddrs[ip+":"+port] = 0
+
+			//pmaddrs[ip] = port
+			//jobs <- job{addr, results}
+		}
+		for addr, _ := range pmaddrs {
+			jobs <- &JobInfoServer{addr, results}
+		}
+		close(jobs)
+	}()
+
+	for i := 0; i < worker; i++ {
+		go doWithNothingJob(jobs, dones)
+	}
+	data := awaitForCloseResult(dones, results, worker)
+	nEpoch := make([]*nodeEpoch, 0, len(data))
+	for _, d := range data {
+		nEpoch = append(nEpoch, &nodeEpoch{d.addr, d.NodeEpoch})
+	}
+	return nEpoch, nil
+}
+
+/*
 // 多 slave 时通过 goroutine 搞
 func addJob(partitions []*ZPMeta.Partitions, jobs chan<- Jobber, results chan<- Result, jobtype interface{}) {
 	for _, partition := range partitions {
@@ -388,6 +489,7 @@ func addJob(partitions []*ZPMeta.Partitions, jobs chan<- Jobber, results chan<- 
 	}
 	close(jobs)
 }
+*/
 
 func doJob(jobs <-chan Jobber, dones chan<- struct{}, tablename string) {
 	for job := range jobs {
@@ -395,9 +497,18 @@ func doJob(jobs <-chan Jobber, dones chan<- struct{}, tablename string) {
 	}
 	dones <- struct{}{}
 }
+func doWithNothingJob(jobs <-chan WithNothingJobber, dones chan<- struct{}) {
+	for job := range jobs {
+		job.Do()
+	}
+	dones <- struct{}{}
+}
 
 type Jobber interface {
 	Do(tablename string)
+}
+type WithNothingJobber interface {
+	Do()
 }
 
 type JobInfoCap struct {
@@ -414,14 +525,21 @@ type JobOffset struct {
 	addr   string
 	result chan<- Result
 }
+type JobInfoServer struct {
+	addr   string
+	result chan<- Result
+}
 
 type Result struct {
-	addr    string
-	Used    int64
-	Remain  int64
-	QPS     int32
-	Query   int64
-	Offsets []*client.SyncOffset
+	addr      string
+	Used      int64
+	Remain    int64
+	QPS       int32
+	Query     int64
+	Pstate    []*client.PartitionState
+	Offsets   []*client.SyncOffset
+	ErrMsg    string
+	NodeEpoch int64
 }
 
 func (job *JobInfoCap) Do(tablename string) {
@@ -430,12 +548,14 @@ func (job *JobInfoCap) Do(tablename string) {
 	var remain int64
 	Nconn, errN := NewConn([]string{job.addr})
 	if errN != nil {
+		job.result <- Result{}
 		return
 	}
 
 	inforesp, err := Nconn.InfoCapacity(tablename)
 	Nconn.RecvDone <- true
 	if err != nil {
+		job.result <- Result{}
 		return
 	}
 	infoCap := inforesp.GetInfoCapacity()
@@ -452,17 +572,19 @@ func (job *JobInfoStats) Do(tablename string) {
 	var qps int32
 	Nconn, errN := NewConn([]string{job.addr})
 	if errN != nil {
+		job.result <- Result{}
 		return
 	}
 
 	inforesp, err := Nconn.InfoStats(tablename)
 	Nconn.RecvDone <- true
 	if err != nil {
+		job.result <- Result{}
 		return
 	}
 	infoStats := inforesp.GetInfoStats()
 	for _, i := range infoStats {
-		fmt.Println("in manges:", i, job.addr)
+		//logger.Info(":", i, job.addr)
 		query += i.GetTotalQuerys()
 		qps += i.GetQps()
 	}
@@ -474,27 +596,50 @@ func (job *JobOffset) Do(tablename string) {
 
 	Nconn, errN := NewConn([]string{job.addr})
 	if errN != nil {
+		job.result <- Result{}
 		return
 	}
 
-	inforesp, err := Nconn.InfoPartition(tablename)
+	inforesp, err := Nconn.InfoRepl(tablename)
 	Nconn.RecvDone <- true
 	if err != nil {
+		job.result <- Result{}
 		return
 	}
-	infoPart := inforesp.GetInfoPartition()
+	infoPart := inforesp.GetInfoRepl()
 	var result Result
 	//	result.Offsets = make(map[string][]*client.SyncOffset)
 	for _, i := range infoPart {
 		//fmt.Println("offset:", i.GetSyncOffset())
-		result.Offsets = i.GetSyncOffset()
+		result.Pstate = i.GetPartitionState()
+		for _, p := range result.Pstate {
+			//fmt.Println("offset:", p.GetSyncOffset(), p.GetPartitionId())
+			result.Offsets = append(result.Offsets, p.GetSyncOffset())
+		}
 		result.addr = job.addr
-		result.Query = 0
-		result.QPS = 0
 	}
-
 	job.result <- result
 }
+
+func (job *JobInfoServer) Do() {
+	//addr := partition.Master.GetIp() + ":" + strconv.Itoa(int(partition.Master.GetPort()))
+	Nconn, errN := NewConn([]string{job.addr})
+	if errN != nil {
+		job.result <- Result{}
+		return
+	}
+
+	inforesp, err := Nconn.InfoServer()
+	Nconn.RecvDone <- true
+	if err != nil {
+		job.result <- Result{}
+		return
+	}
+	infoServer := inforesp.GetInfoServer()
+	epoch := infoServer.GetEpoch()
+	job.result <- Result{NodeEpoch: epoch, addr: job.addr}
+}
+
 func awaitForCloseResult(dones <-chan struct{}, results chan Result, worker int) []Result {
 	working := worker
 	done := false

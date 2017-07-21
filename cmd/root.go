@@ -83,9 +83,9 @@ func initConfig() {
 	}
 
 	viper.SetConfigName(".zep-cli") // name of config file (without extension)
+	viper.AddConfigPath("$HOME/")   // adding home directory as first search path
 	viper.AddConfigPath(lodir)
-	viper.AddConfigPath("$HOME/") // adding home directory as first search path
-	viper.AutomaticEnv()          // read in environment variables that match
+	viper.AutomaticEnv() // read in environment variables that match
 	//fmt.Println(viper.ConfigFileUsed())
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err != nil {

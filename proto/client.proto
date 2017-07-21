@@ -8,7 +8,9 @@ enum Type {
   DEL = 3;
   INFOSTATS = 4;
   INFOCAPACITY = 5;
-  INFOPARTITION = 6;
+  INFOREPL= 6;
+  MGET = 7;
+  INFOSERVER = 8;
 }
 
 enum SyncType {
@@ -35,6 +37,20 @@ message SyncOffset {
   optional int32 partition = 3;
 }
 
+message KeyExpire {
+  optional int32 base = 1;
+  required int32 ttl = 2;
+}
+
+message PartitionState {
+  required int32 partition_id = 1; 
+  required string role = 2;
+  required string repl_state = 3;
+  required Node master = 4;
+  repeated Node slaves = 5;
+  required SyncOffset sync_offset = 6; 
+}
+
 message CmdRequest {
   required Type type = 1;
 
@@ -51,6 +67,7 @@ message CmdRequest {
     required string key = 2;
     required bytes value = 3;
     optional string uuid = 4;
+    optional KeyExpire expire  = 5;
   }
   optional Set set = 3;
 
@@ -73,6 +90,12 @@ message CmdRequest {
     optional string table_name = 1; 
   }
   optional Info info = 6;
+
+  message Mget {
+    required string table_name = 1;
+    repeated string keys = 2;
+  }
+  optional Mget mget = 7;
 
 }
 
@@ -110,12 +133,30 @@ message CmdResponse {
   }
   repeated InfoCapacity info_capacity = 8;
 
-  // InfoPartition
-  message InfoPartition {
+  // InfoRepl
+  message InfoRepl {
     required string table_name = 1;
-    repeated SyncOffset sync_offset = 2; 
+    required int64 partition_cnt = 2;
+    repeated PartitionState partition_state = 3;
   }
-  repeated InfoPartition info_partition = 9;
+  repeated InfoRepl info_repl = 9;
+
+  // Mget
+  message Mget {
+    required string key = 1;
+    required bytes value = 2; 
+  }
+  repeated Mget mget = 10;
+
+  // InfoServer
+  message InfoServer {
+    required int64 epoch = 1;
+    repeated string table_names = 2;
+    required Node cur_meta = 3;
+    required bool meta_renewing = 4; 
+  }
+  optional InfoServer info_server = 11;
+
 }
 
 message BinlogSkip {
